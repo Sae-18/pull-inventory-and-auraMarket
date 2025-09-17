@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Trade</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="w-full py-6 bg-gray-950 shadow-lg border-b border-gray-800">
+        <div class="max-w-6xl mx-auto flex justify-between items-center px-6">
+            <h1 class="text-3xl font-extrabold tracking-wide">⚡ Blue Lock TCG Trading</h1>
+            <div id="authControls" class="flex items-center gap-4">
+                <p id="userInfo" class="text-sm text-gray-300"></p>
+                <button id="loginBtn"
+                    class="px-5 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition">
+                    Login with Google
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="flex-1 max-w-6xl mx-auto w-full px-6 py-8 space-y-8">
+
+        <!-- TRADE CONTROLS -->
+        <section class="bg-gray-800/70 backdrop-blur-md rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">🎮 Trade Lobby</h2>
+            <div class="flex flex-wrap gap-3 items-center">
+                <button id="createTrade"
+                    class="px-5 py-2 bg-green-600 hover:bg-green-700 rounded-lg font-medium transition">
+                    Create Trade Lobby
+                </button>
+                <input id="tradeIdInput" placeholder="Enter Trade ID"
+                    class="text-black px-3 py-2 rounded-md flex-1 min-w-[220px]" />
+                <button id="joinTrade"
+                    class="px-5 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg font-medium transition">
+                    Join Trade
+                </button>
+            </div>
+            <h2 id="tradeStatus" class="mt-4 font-bold text-green-400"></h2>
+        </section>
+
+        <!-- INVENTORY & TRADE AREA -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <!-- Your Inventory -->
+            <div class="bg-gray-800/70 rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-bold mb-3">📦 Your Inventory</h3>
+                <div id="inventory" class="flex justify-around flex-wrap items-center  text-sm">
+                    <!-- Cards load here -->
+                </div>
+                <button id="confirmOffer"
+                    class="w-full mt-4 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium transition disabled:opacity-50"
+                    disabled>
+                    Confirm Offer
+                </button>
+            </div>
+
+            <!-- Trade Summary -->
+            <div class="bg-gray-800/70 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-lg font-bold mb-3">🤝 Trade Summary</h3>
+                    <pre id="tradeDebug"
+                        class="bg-gray-900 p-3 rounded-lg text-xs text-gray-300 overflow-x-auto h-64"></pre>
+                </div>
+                <button id="finalizeTrade"
+                    class="w-full mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition disabled:opacity-50"
+                    disabled>
+                    Finalize Trade
+                </button>
+            </div>
+
+        </section>
+        <!-- Trade Offers -->
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Your Offer -->
+            <div>
+                <h3 class="text-lg font-bold mb-2">Your Offer</h3>
+                <div id="yourOffer"
+                    class="grid grid-cols-2 sm:grid-cols-3 gap-2 p-2 border border-gray-700 rounded-lg min-h-[100px]">
+                    <p class="text-gray-400 col-span-full">No cards offered yet.</p>
+                </div>
+            </div>
+
+            <!-- Opponent's Offer -->
+            <div>
+                <h3 class="text-lg font-bold mb-2">Opponent's Offer</h3>
+                <div id="opponentOffer"
+                    class="grid grid-cols-2 sm:grid-cols-3 gap-2 p-2 border border-gray-700 rounded-lg min-h-[100px]">
+                    <p class="text-gray-400 col-span-full">Waiting for opponent...</p>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-4 text-center text-gray-500 text-sm border-t border-gray-800">
+        ⚡ Built with Firebase + Tailwind
+    </footer>
+
+    <!-- 🔗 Your JS code script here -->
+    <script type="module" src="src/js/trade.js"></script>
+
+</body>
+
+</html>

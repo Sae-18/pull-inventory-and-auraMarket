@@ -1,0 +1,106 @@
+/* @import url('https://db.onlinewebfonts.com/c/...'); */
+/* @import url('https://fonts.cdnfonts.com/css/...'); */
+
+:root {
+  --bl-blue: #007aff;
+  --bg-color: #111;
+}
+
+.button {
+  width: 10em;
+  position: relative;
+  height: 3em;
+  border: 3px ridge var(--bl-blue);
+  outline: none;
+  color: white;
+  transition: 1s;
+  border-radius: 0.3em;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'ICA Rubrik', sans-serif;
+  background: transparent;
+  letter-spacing: 2px;
+  margin-left: 5px;
+  margin-right: 20px;
+}
+
+.button::after,
+.button::before {
+  content: "";
+  position: absolute;
+  left: 3%;
+  width: 95%;
+  height: 40%;
+  transition: 0.5s;
+  transform-origin: center;
+  background-color: var(--bg-color);
+}
+
+.button::after {
+  top: -10px;
+}
+
+.button::before {
+  top: 80%;
+}
+
+.button:hover::before,
+.button:hover::after {
+  transform: scale(0);
+}
+
+.button.colliding {
+  box-shadow: inset 0px 0px 25px var(--bl-blue);
+}
+
+.button.colliding::before,
+.button.colliding::after {
+  transform: scale(0);
+}
+
+.button:hover {
+  box-shadow: inset 0px 0px 25px var(--bl-blue);
+}
+
+
+/* From Uiverse.io by SujitAdroja */
+.btn {
+  color: #18d1ff;
+  height : 60%;
+  font-family: 'ICA Rubrik', sans-serif;
+  width : 30%;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid #0b368e;
+  padding: 10px 20px;
+  font-size: 17px;
+  cursor: pointer;
+  font-weight: bold;
+  background: transparent;
+  position: relative;
+  transition: all 1s;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.btn:hover {
+  color: rgb(17, 0, 80);
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 0%;
+  top: 0;
+  left: -40px;
+  transform: skewX(45deg);
+  background-color: #00eaffb7;
+  z-index: -1;
+  transition: all 1s;
+}
+
+.btn:hover::before {
+  width: 160%;
+}

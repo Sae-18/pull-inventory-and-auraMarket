@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Face the Creator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+      /* enables smooth scrolling */
+    }
+  </style>
+</head>
+
+<body class="h-screen w-screen relative bg-gray-900 overflow-x-hidden">
+
+  <!-- Background -->
+  <div class="absolute inset-0 -z-10">
+    <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/cc1.png?raw=true"
+      class="h-full w-full object-cover" alt="Background silhouettes">
+  </div>
+
+  <!-- Navbar -->
+  <header class="z-10 w-full top-0 left-0 flex justify-between items-center px-8 py-4">
+    <nav class="hidden md:flex items-center space-x-2">
+      <img class="box-content size-14 object-contain"
+        src="https://github.com/Sae-18/assets-for-tcg/blob/main/BlueLockBackgrounds/logo.png?raw=true" alt="Logo">
+      <div class="text-black font-bold text-xl">BlueLockTCG</div>
+    </nav>
+
+    <nav class="hidden md:flex space-x-16 text-black font-semibold">
+      <a href="pull.html" class="hover:text-gray-700 hover:-translate-y-1.5 transition">Pull</a>
+      <a href="#" class="hover:text-gray-700 hover:-translate-y-1.5 transition">Deck</a>
+      <a href="market.html" class="hover:text-gray-700 hover:-translate-y-1.5 transition">Market</a>
+      <a href="trade.html" class="hover:text-gray-700 hover:-translate-y-1.5 transition">Trade</a>
+    </nav>
+
+    <nav class="hidden md:flex space-x-8 text-black items-center">
+      <a href="#" class="hover:text-gray-800 transition">Aura</a>
+      <a href="#" class="ml-6 px-4 py-2 bg-white text-black rounded-md hover:bg-gray-200 transition">Sign up</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative h-screen flex flex-col justify-center items-center text-center px-6">
+
+    <!-- Headline -->
+    <h1 class="text-4xl md:text-7xl font-extrabold leading-snug mb-8">
+      Face The <span class="text-red-600">Creator</span> - Claim The <span class="text-orange-500">Crown</span>
+    </h1>
+
+    <!-- Main character -->
+    <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/cc6.png?raw=true"
+      class="size-7/12 -translate-x-2 object-contain mb-8" alt="Ego character">
+
+    <!-- Button -->
+    <a href="#about"
+      class="-translate-y-12 px-8 py-3 bg-gradient-to-r from-gray-700 to-black rounded-full text-white font-bold text-lg shadow-lg hover:scale-105 transition-transform">
+      Enter The Contest
+    </a>
+
+  </section>
+
+  <!-- About Section -->
+  <section id="about"
+    class="min-h-screen flex flex-col items-center justify-center px-6 py-16 bg-[url(https://github.com/Sae-18/assets-for-tcg/blob/main/Market/cc1.png?raw=true)]">
+    <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/cc5.png?raw=true" class="size-1/6">
+    <div
+      class="relative max-w-3xl w-full bg-gradient-to-br from-gray-900/90 to-black/70 text-white rounded-2xl shadow-xl p-8 text-center overflow-hidden">
+
+      <!-- Slides Wrapper -->
+      <div class="relative">
+        <!-- Slide 1 -->
+        <div class="carousel-slide">
+          <h2 class="text-2xl md:text-3xl font-bold text-red-500 mb-6">About the Contest</h2>
+          <p class="text-xl leading-loose font-mono">
+            The Creator's Contest is the ultimate trial - a once-in-a-lifetime battle where skill, strategy, and ego are
+            pushed beyond their limits.
+            The Creator does not stand alone. Guarding him are his Five Swords - legendary warriors who test the
+            strength of every challenger. Each Sword wields exclusive, custom-forged cards, crafted to break the will of
+            ordinary players. Only those with unshakable resolve can hope to cut through their defenses.
+          </p>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-slide hidden">
+          <div class="max-w-3xl mx-auto text-white font-mono">
+            <h2 class="text-3xl font-bold text-center text-red-500 mb-2">
+              The Challenger's Path
+            </h2>
+            <h3 class="text-2xl font-semibold text-center text-red-400 mb-10">
+              Steps to Enter the Contest
+            </h3>
+
+            <ol class="relative border-l-4 border-red-600 space-y-10 pl-10">
+              <!-- Step 1 -->
+              <li class="relative">
+                <div
+                  class="absolute -left-6 w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold shadow-lg">
+                  1
+                </div>
+                <p class="px-6 text-left text-lg leading-relaxed text-wrap">
+                  Become a <span class="font-bold text-orange-400">Tournament Champion</span> in any TCG on our platform
+                  <span class="italic text-gray-300">(paid community)</span>.
+                </p>
+              </li>
+
+              <!-- Step 2 -->
+              <li class="relative">
+                <div
+                  class="absolute -left-6 w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold shadow-lg">
+                  2
+                </div>
+                <p class="px-6 text-left text-lg leading-relaxed">
+                  Face the <span class="text-red-400 font-bold">Five Swords</span>, one by one. Each Sword wields
+                  exclusive cards,
+                  but you may also choose from special cards to aid you.
+                </p>
+              </li>
+
+              <!-- Step 3 -->
+              <li class="relative">
+                <div
+                  class="absolute -left-6 w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold shadow-lg">
+                  3
+                </div>
+                <p class="px-6 text-left text-lg leading-relaxed">
+                  Defeat all the Swords to earn the right to face the <span
+                    class="text-orange-400 font-bold">Creator</span> himself.
+                </p>
+              </li>
+
+              <!-- Step 4 -->
+              <li class="relative">
+                <div
+                  class="absolute -left-6 w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold shadow-lg">
+                  4
+                </div>
+                <p class="px-6 text-left text-lg leading-relaxed">
+                  Conquer the <span class="text-red-500 font-bold">Creator</span>, and claim your <span
+                    class="text-orange-400">destiny</span>.
+                </p>
+              </li>
+            </ol>
+          </div>
+
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-slide hidden">
+          <div class="max-w-2xl mx-auto text-center font-mono text-white mt-3 px-6">
+            <h2 class="text-3xl font-bold text-red-500 mb-6 tracking-wide">
+              The Reward for Victory
+            </h2>
+
+            <p class="text-gray-300 text-lg mb-10">
+              Defeat the <span class="text-orange-400 font-semibold">Creator</span> and claim:
+            </p>
+
+            <ul class="space-y-8 text-lg leading-relaxed">
+              <li class="border-b border-gray-700 pb-4">
+                <span class="font-semibold text-orange-400">Prizes & Goodies</span> worth ₹1,00,000
+              </li>
+              <li class="border-b border-gray-700 pb-4">
+                Forever <span class="font-semibold text-orange-400">50% Discount</span> on all products
+              </li>
+              <li class="border-b border-gray-700 pb-4">
+                <span class="font-semibold text-orange-400">Unlimited Aura Credits</span>, forever
+              </li>
+              <li class="pt-2">
+                Your name in the <span class="text-red-500 font-semibold">Hall of Fame</span>, honored eternally as<br>
+                <span class="italic text-gray-300">“He Who Defeated the Creator.”</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Dots -->
+      <div class="flex justify-center mt-6 space-x-2">
+        <button class="dot w-3 h-3 rounded-full bg-white"></button>
+        <button class="dot w-3 h-3 rounded-full bg-gray-500"></button>
+        <button class="dot w-3 h-3 rounded-full bg-gray-500"></button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const slides = document.querySelectorAll(".carousel-slide");
+    const dots = document.querySelectorAll(".dot");
+    let active = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("hidden", i !== index);
+        dots[i].classList.toggle("bg-white", i === index);
+        dots[i].classList.toggle("bg-gray-500", i !== index);
+      });
+      active = index;
+    }
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => showSlide(i));
+    });
+
+    // Init
+    showSlide(0);
+  </script>
+
+
+</body>
+
+</html>

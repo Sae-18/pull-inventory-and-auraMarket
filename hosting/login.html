@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glass Login</title>
+  <link rel="stylesheet" href="src/css/login.css">
+  <!-- You can use Font Awesome for icons -->
+</head>
+
+<body>
+
+  <div class="login-container">
+    <h2>Ready for a revolution?</h2>
+
+    <div class="input-group">
+      <label for="email">Email</label>
+      <div class="input-wrapper">
+        <input type="email" id="email" placeholder="Enter your email">
+        <i class="fa-solid fa-envelope"></i>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="password">Password</label>
+      <div class="input-wrapper">
+        <input type="password" id="password" placeholder="Enter your password">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+    </div>
+
+    <div class="options">
+      <label><input type="checkbox"> Remember Me</label>
+      <a href="#">Forgot Password?</a>
+    </div>
+
+    <button class = "login-btn" id="logout-btn">LOGOUT</button>
+    <div class="social-login">
+    <button id="googleLogin" class="social-btn google-btn">
+        <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg  " alt="Google Logo" class="icon"> Sign in with Google
+    </button>
+    <button id="discordLogin" class="social-btn discord-btn">
+        <img src="https://www.svgrepo.com/show/353655/discord-icon.svg" alt="Discord Logo" class="icon"> Sign in with Discord
+    </button>
+</div>
+
+    <p class="register">Don't have an account yet? <a href="#">Register</a></p>
+  </div>
+  <script type = "module" src="src/js/auth.js"></script>
+</body>
+
+</html>

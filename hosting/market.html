@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Lock TCG</title>
+    <link href="src/css/storage.css" rel="stylesheet">
+    <link href="src/css/button.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            background-image: url("https://github.com/Sae-18/assets-for-tcg/blob/main/Market/final/marekt%20bg.png?raw=true");
+            background-size: cover;
+            /* makes it cover the whole screen */
+            background-repeat: no-repeat;
+            /* prevents tiling */
+            background-position: center;
+            /* centers the image */
+            background-attachment: fixed;
+            /* keeps it locked in place when scrolling */
+        }
+
+
+        .right-text p {
+            font-family: "Pixelify sans", sans-serif;
+        }
+
+        @keyframes test-spin {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        .rotate {
+            animation: test-spin 3s linear infinite;
+        }
+
+        .page-container {
+            display: none;
+            /* Hidden by default */
+        }
+
+        .page-container.active {
+            display: block;
+            /* Shown when active */
+        }
+
+        /* Custom styling for active dot */
+        .dot.active {
+            background-color: white;
+            opacity: 1;
+        }
+
+        .page-content {
+            transform: translateX(0);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .page-content.slide-left {
+            transform: translateX(-100%);
+        }
+
+        .page-content.slide-right {
+            transform: translateX(100%);
+        }
+
+        .page-content.active {
+            transform: translateX(0);
+        }
+
+        .arrow-button {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .arrow-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Glassmorphism Effect */
+        .glassmorphism-effect {
+            background: rgba(255, 255, 255, 0.1);
+            /* Slightly transparent white background */
+            backdrop-filter: blur(10px) saturate(150%);
+            /* Blur and saturate the background */
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            /* For Safari */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Light border */
+        }
+    </style>
+</head>
+
+<body class="text-white">
+    <!-- Navbar -->
+    <header class=" overflow-x-hidden flex justify-between items-center px-8 py-0">
+        <nav class="hidden md:flex justify-baseline space-x-2 items-center">
+            <img class="box-content size-14 object-contain"
+                src="https://github.com/Sae-18/assets-for-tcg/blob/main/BlueLockBackgrounds/logo.png?raw=true">
+            <div class="text-white font-bold text-xl">BlueLockTCG</div>
+        </nav>
+        <nav class="hidden md:flex space-x-16 text-white">
+            <a href="home.html" class="hover:text-gray-700 hover:-translate-y-1.5 transition">Home</a>
+            <a href="market.html" class="hover:text-gray-700 hover:-translate-y-1.5 transition">Market</a>
+            <a href="#" class="hover:text-gray-700 hover:-translate-y-1.5 transition">Deck</a>
+
+        </nav>
+        <nav class="hidden md:flex space-x-2  text-white items-center">
+
+            <div class="flex items-center bg-white rounded-md">
+                <p id="aura-amount" class="pl-4 text-gray-900 text-center cursor-default"></p>
+                <a href="#" class="hover:text-gray-300 transition "><img class="-translate-y-1.5 object-contain size-10"
+                        src="Assets/aura.png"></a>
+            </div>
+            <a href="#" class="ml-6 px-4 py-2 bg-white text-black rounded-md hover:bg-gray-200 transition">Sign up</a>
+        </nav>
+    </header>
+    <section>
+        <div class="min-h-screen bg-transparent w-full text-white flex flex-col items-center py-8 px-6">
+
+            <!-- Heading -->
+            <h1 class="text-4xl md:text-5xl font-extrabold text-purple-400 mb-4 flex items-center gap-2">
+                <span class="text-purple-300"><img src="Assets/aura.png"
+                        class="size-24 -translate-y-3 translate-x-6"></span> Our Offerings <span
+                    class="text-purple-300"><img src="Assets/aura.png"
+                        class="size-24 -translate-y-3 -translate-x-4"></span>
+            </h1>
+
+            <!-- Billing Options -->
+            <!-- Plan Selector -->
+            <div class="flex justify-center items-center gap-4 mb-12" id="planButtons">
+                <label for="weekly"
+                    class="cursor-pointer px-6 py-2 rounded-full text-white font-bold transition transform">
+                    WEEKLY
+                </label>
+                <label for="quarterly"
+                    class="cursor-pointer px-6 py-2 rounded-full text-white font-bold transition transform">
+                    QUARTERLY
+                </label>
+                <label for="monthly"
+                    class="cursor-pointer px-6 py-2 rounded-full text-white font-bold transition transform">
+                    MONTHLY
+                </label>
+            </div>
+
+
+            <!-- Radios + Plan Sections -->
+            <div class="w-full">
+
+                <!-- Weekly -->
+                <div class="h-full">
+                    <input type="radio" name="billing" id="weekly" class="hidden peer">
+                    <div class="hidden peer-checked:flex flex-row justify-evenly items-center mt-6 w-full px-4">
+
+                        <!-- Card 1 -->
+                        <div class="w-full md:w-1/3 lg:w-1/4 aspect-[4/5] rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/final/7.png?raw=true"
+                                alt="Plan 1" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="w-full md:w-1/3 lg:w-1/4 aspect-[4/5] rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/final/8.png?raw=true"
+                                alt="Plan 2" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="w-full md:w-1/3 lg:w-1/4 aspect-[4/5] rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/final/9.png?raw=true"
+                                alt="Plan 3" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quarterly -->
+                <div class="h-full">
+                    <input type="radio" name="billing" id="quarterly" class="hidden peer">
+                    <div class="hidden peer-checked:flex flex-row justify-evenly items-center mt-6 w-full px-4 pl-8">
+
+                        <!-- Card 1 -->
+                        <div class="w-full md:w-1/3 lg:w-1/4 aspect-[4/5] rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/final/1.png?raw=true"
+                                alt="Plan 1" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="w-full md:w-1/3 lg:w-1/4 aspect-[4/5] rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/final/2.png?raw=true"
+                                alt="Plan 2" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="w-full md:w-1/3 lg:w-1/4 aspect-[4/5] rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/final/3.png?raw=true"
+                                alt="Plan 3" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                </div>
+                <!-- Monthly -->
+                <div class="h-full">
+                    <input type="radio" name="billing" id="monthly" class="hidden peer">
+                    <div class="hidden peer-checked:flex flex-row justify-evenly items-center mt-6 w-full px-4 pl-8">
+
+                        <!-- Card 1 -->
+                        <div class="w-full md:w-1/3 lg:w-1/4 aspect-[4/5] rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/final/4.png?raw=true"
+                                alt="Plan 1" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="w-full md:w-1/3 lg:w-1/4 aspect-[4/5] rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/final/5.png?raw=true"
+                                alt="Plan 2" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="w-full md:w-1/3 lg:w-1/4 aspect-[4/5] rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/Market/final/6.png?raw=true"
+                                alt="Plan 3" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+
+    </section>
+
+    </div>
+    <!-- Purchase Confirmation Modal -->
+    <div id="purchase-modal" class="fixed inset-0 flex items-center justify-center bg-black/70 z-50 hidden">
+        <div
+            class="bg-white rounded-2xl shadow-xl p-6 text-center max-w-sm w-full transform scale-75 opacity-0 transition-all duration-300 ease-out">
+            <h2 class="text-2xl font-bold text-green-600 mb-2">Purchase Successful!</h2>
+            <p class="text-gray-700 mb-4">This card has been added to your inventory.</p>
+            <div class="flex justify-center mb-4">
+                <img id="purchased-card" src="https://via.placeholder.com/120" alt="Card"
+                    class="rounded-xl shadow-lg transform scale-0 opacity-0 transition-all duration-500 ease-out" />
+            </div>
+            <button id="close-modal" class="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirm-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div
+            class="bg-white rounded-2xl shadow-xl p-6 text-center max-w-sm w-full scale-75 opacity-0 transition-all duration-200">
+            <h2 class="text-xl font-bold mb-4 text-red-600">Confirm Purchase</h2>
+            <p class="mb-6 text-black">This pack costs <span id="confirm-cost"></span> Aura. Do you want to proceed?</p>
+            <div class="flex justify-around">
+                <button id="confirm-yes"
+                    class="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700">Yes</button>
+                <button id="confirm-no" class="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700">No</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <section class = "scale-85">
+        <div class="flex items-center justify-evenly h-7/12 p-4">
+            <div class="bg-transparent bg-opacity-70 backdrop-blur-sm rounded-xl p-8 w-full border border-slate-700
+        shadow-lg">
+                <div class="w-full text-center mb-10 self-baseline">
+                    <h1
+                        class="text-5xl lg:text-6xl font-bold text-center mb-12 text-purple-500 uppercase tracking-normal">
+                        <span class="">EGO VAULT</span>
+                    </h1>
+                    <p class="text-gray-300 text-2xl italic mt-2 pb-10">
+                        They escaped your ego once, don't let them again.
+                    </p>
+                </div>
+                <div id="ego-vault-pages" class="relative overflow-hidden min-h-[36rem]">
+
+                    <div id="ego-vault-page1" class="page-content absolute top-0 left-0 w-full active">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 px-8">
+                            <div id="C" class="flex flex-col items-center">
+                                <div
+                                    class="text-xl lg:text-2xl font-semibold text-gray-300 mb-4 [text-shadow:0_0_20px_rgba(156,163,175,0.7)]">
+                                    C
+                                </div>
+                                <div
+                                    class="w-full h-96 bg-slate-800 rounded-lg border-2 border-slate-600 flex items-center justify-center overflow-hidden hover:scale-105 hover:shadow-[0px_0px_25px_10px_rgba(119,118,123,1)] transition-all">
+                                    <img src="Assets/1.png" class="p-0 object-cover">
+                                </div>
+                                <div class="flex items-center gap-0 mt-4 border-0 rounded-2xl">
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                    <span
+                                        class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+                                        25 AURA
+                                    </span>
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                </div>
+                            </div>
+
+                            <div id="B" class="flex flex-col items-center">
+                                <div 
+                                    class="text-xl lg:text-2xl font-semibold text-blue-300 mb-4 [text-shadow:0_0_20px_rgba(100,116,139,0.7)] ">
+                                    B
+                                </div>
+                                <div
+                                    class="w-full h-96 bg-slate-800 rounded-lg border-2 border-blue-600 flex items-center justify-center overflow-hidden hover:scale-105 hover:shadow-[0px_0px_25px_10px_rgba(53,132,228,1)] transition-all">
+                                    <img src="Assets/1.png" class="p-0 object-cover">
+                                </div>
+
+                                <div class="flex items-center gap-0 mt-4 border-0 rounded-2xl">
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                    <span
+                                        class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+                                        35 AURA
+                                    </span>
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                </div>
+
+                            </div>
+
+                            <div id="A" class="flex flex-col items-center">
+                                <div 
+                                    class="text-xl lg:text-2xl font-semibold text-purple-300 mb-4 [text-shadow:0_0_20px_rgba(239,68,68,0.7)]">
+                                    A
+                                </div>
+                                <div
+                                    class="w-full h-96 bg-slate-800 rounded-lg border-2 border-purple-600 flex items-center justify-center overflow-hidden hover:scale-105 hover:shadow-[0px_0px_25px_10px_rgba(145,65,172,1)] transition-all">
+                                    <img src="Assets/1.png" class="p-0 object-cover">
+
+                                </div>
+                                <div class="flex items-center gap-0 mt-4 border-0 rounded-2xl">
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                    <span
+                                        class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+                                        50 AURA
+                                    </span>
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                </div>
+                            </div>
+
+                            <div id="S" class="flex flex-col items-center">
+                                <div 
+                                    class="text-xl lg:text-2xl font-semibold text-yellow-300 mb-4 [text-shadow:0_0_20px_rgba(251,191,36,0.7)]">
+                                    S
+                                </div>
+                                <div
+                                    class="w-full h-96 bg-slate-800 rounded-lg border-2 border-yellow-600 flex items-center justify-center overflow-hidden hover:scale-105 hover:shadow-[0px_0px_25px_10px_rgba(246,211,45,1)] transition-all">
+                                    <img src="Assets/1.png" class="p-0 object-cover">
+                                </div>
+                                <div class="flex items-center gap-0 mt-4 border-0 rounded-2xl">
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                    <span
+                                        class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+                                        100 AURA
+                                    </span>
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                </div>
+                            </div>
+
+                            <div id="SS" class="flex flex-col items-center">
+                                <div 
+                                    class="text-xl lg:text-2xl font-semibold text-orange-300 mb-4 [text-shadow:0_0_20px_rgba(249,115,22,0.7)]">
+                                    SS
+                                </div>
+                                <div
+                                    class="w-full h-96 bg-slate-800 rounded-lg border-2 border-orange-600 flex items-center justify-center overflow-hidden hover:scale-105 hover:shadow-[0px_0px_25px_10px_rgba(255,120,0,1)] transition-all">
+                                    <img src="Assets/1.png" class="p-0 object-cover">
+                                </div>
+                                <div class="flex items-center gap-0 mt-4 border-0 rounded-2xl">
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                    <span
+                                        class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+                                        150 AURA
+                                    </span>
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="ego-vault-page2" class="page-content absolute top-0 left-0 w-full slide-right">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 px-8">
+                            <div id="power-up" class="flex flex-col items-center">
+                                <div 
+                                    class="text-xl lg:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-500 mb-4 [text-shadow:0_0_20px_rgba(216,180,254,0.7)]">
+                                    POWER UP
+                                </div>
+                                <div
+                                    class="w-full h-96 bg-slate-800 rounded-lg border-2 border-slate-600 flex items-center justify-center overflow-hidden hover:scale-105 hover:shadow-[0px_0px_20px_10px_rgba(224,126,230,1)] transition-all">
+                                    <img src="Assets/1.png" class="p-0 object-cover">
+                                </div>
+                                <div class="flex items-center gap-0 mt-4 border-0 rounded-2xl">
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                    <span
+                                        class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+                                        100 AURA
+                                    </span>
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                </div>
+                            </div>
+
+                            <div id="effect-card" class="flex flex-col items-center">
+                                <div 
+                                    class="text-xl lg:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-red-400 mb-4 [text-shadow:0_0_20px_rgba(244,114,182,0.7)]">
+                                    EFFECT CARD
+                                </div>
+                                <div
+                                    class="w-full h-96 bg-slate-800 rounded-lg border-2 border-slate-600 flex items-center justify-center overflow-hidden hover:scale-105 hover:shadow-[0px_0px_25px_10px_rgba(224,126,230,1)] transition-all">
+                                    <img src="Assets/1.png" class="p-0 object-cover">
+                                </div>
+                                <div class="flex items-center gap-0 mt-4 border-0 rounded-2xl">
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                    <span
+                                        class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+                                        75 AURA
+                                    </span>
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                </div>
+                            </div>
+
+                            <div id="rival-synergy" class="flex flex-col items-center">
+                                <div 
+                                    class="text-xl lg:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-red-400 mb-4 [text-shadow:0_0_20px_rgba(192,132,252,0.7)]">
+                                    RIVAL SYNERGY
+                                </div>
+                                <div
+                                    class="w-full h-96 bg-slate-800 rounded-lg border-2 border-slate-600 flex items-center justify-center overflow-hidden hover:scale-105 hover:shadow-[0px_0px_25px_10px_rgba(224,126,230,1)] transition-all">
+                                    <img src="Assets/1.png" class="p-0 object-cover">
+                                </div>
+                                <div class="flex items-center gap-0 mt-4 border-0 rounded-2xl">
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                    <span
+                                        class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+                                        50 AURA
+                                    </span>
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                </div>
+                            </div>
+
+                            <div id="synergy" class="flex flex-col items-center">
+                                <div 
+                                    class="text-xl lg:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-400 mb-4 [text-shadow:0_0_20px_rgba(252,211,77,0.7)]">
+                                    SYNERGY
+                                </div>
+                                <div
+                                    class="w-full h-96 bg-slate-800 rounded-lg border-2 border-slate-600 flex items-center justify-center overflow-hidden hover:scale-105 hover:shadow-[0px_0px_25px_10px_rgba(224,126,230,1)] transition-all">
+                                    <img src="Assets/1.png" class="p-0 object-cover">
+                                </div>
+                                <div class="flex items-center gap-0 mt-4 border-0 rounded-2xl">
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                    <span
+                                        class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+                                        100 AURA
+                                    </span>
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                </div>
+                            </div>
+
+                            <div id="character-boost" class="flex flex-col items-center">
+                                <div 
+                                    class="text-xl lg:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-300 mb-4 [text-shadow:0_0_20px_rgba(253,186,116,0.7)]">
+                                    CHARACTER BOOST
+                                </div>
+                                <div
+                                    class="w-full h-96 bg-slate-800 rounded-lg border-2 border-slate-600 flex items-center justify-center overflow-hidden hover:scale-105 hover:shadow-[0px_0px_25px_10px_rgba(224,126,230,1)] transition-all">
+                                    <img src="Assets/1.png" class="p-0 object-cover">
+                                </div>
+                                <div class="flex items-center gap-0 mt-4 border-0 rounded-2xl">
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                    <span
+                                        class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+                                        125 AURA
+                                    </span>
+                                    <img class="object-contain size-10 -translate-y-1" src="Assets/aura.png"
+                                        alt="Aura flame">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-8 -translate-y-full flex items-center justify-center space-x-6">
+                    <button id="prev-btn" class="arrow-button text-white text-4xl p-2 rounded-full hover:bg-slate-700">
+                        &larr;
+                    </button>
+                    <div class="text-white text-2xl hover:[text-shadow:0px_0px_45px_rgba(53,132,228,1)]">
+                        <span class=""> Refreshes every 24 hours</span>
+                    </div>
+                    <button id="next-btn" class="arrow-button text-white text-4xl p-2 rounded-full hover:bg-slate-700">
+                        &rarr;
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type = "module">
+        const pages = document.querySelectorAll('.page-container');
+        const dots = document.querySelectorAll('.dot');
+        let currentPageIndex = 0;
+
+        function showPage(index) {
+            pages.forEach((page, i) => {
+                if (i === index) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            currentPageIndex = index;
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showPage(index);
+            });
+        });
+
+        // Initialize to show the first page
+        showPage(currentPageIndex);
+        const egoVaultPages = document.querySelectorAll('.page-content');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        let currentEgoVaultPageIndex = 0;
+
+        function showEgoVaultPage(index) {
+            egoVaultPages.forEach((page, i) => {
+                if (i === index) {
+                    page.classList.add('active');
+                    page.classList.remove('slide-left', 'slide-right');
+                } else if (i < index) {
+                    page.classList.add('slide-left');
+                    page.classList.remove('active', 'slide-right');
+                } else {
+                    page.classList.add('slide-right');
+                    page.classList.remove('active', 'slide-left');
+                }
+            });
+            currentEgoVaultPageIndex = index;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentEgoVaultPageIndex > 0) {
+                showEgoVaultPage(currentEgoVaultPageIndex - 1);
+            } else {
+                showEgoVaultPage(egoVaultPages.length - 1); // Loop to last page
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentEgoVaultPageIndex < egoVaultPages.length - 1) {
+                showEgoVaultPage(currentEgoVaultPageIndex + 1);
+            } else {
+                showEgoVaultPage(0); // Loop to first page
+            }
+        });
+
+        // Initialize pages: Ensure the first page is active and others are off-screen
+        // This is primarily for the initial load state if JavaScript loads after DOM render.
+        // With initial classes, this is mostly for robustness.
+        showEgoVaultPage(currentEgoVaultPageIndex);
+
+
+        // Set Aura amount (Placeholder for now)
+        const auraAmountElement = document.getElementById('aura-amount');
+        if (auraAmountElement) {
+            auraAmountElement.textContent = '1000'; // Example amount
+        }
+    </script>
+
+
+
+    <script type="module" src="src/js/market.js"></script>
+</body>
+
+</html>

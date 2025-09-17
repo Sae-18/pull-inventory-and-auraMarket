@@ -1,0 +1,156 @@
+/* Background setup */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.cdnfonts.com/css/ica-rubrik-bold');
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: url('https://github.com/Sae-18/assets-for-tcg/blob/main/BlueLockBackgrounds/loginBG.png?raw=true') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+/* Glassmorphism container */
+.login-container {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    width: 480px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.login-container h2 {
+    font-family: "Pixelify sans", "sans-serif";
+    margin-bottom: 40px;
+    font-size: 1.8rem;
+    margin-top: 10px;
+}
+
+/* Input group styling */
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+
+}
+
+.input-group label {
+    font-size: 0.9rem;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 10px 35px 10px 0px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+    font-size: 0.95rem;
+}
+
+.input-wrapper i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+}
+
+/* Options row */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    margin: 10px 0 20px;
+}
+
+.options a {
+    color: white;
+    text-decoration: none;
+}
+
+.options a:hover {
+    color: rgb(182, 180, 180);
+}
+
+/* Button styling */
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    background: red;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.login-btn:hover {
+    background: darkred;
+
+}
+
+/* Register link */
+.register {
+    font-size: 0.85rem;
+    margin-top: 15px;
+}
+
+.register a {
+    color: white;
+    text-decoration: underline;
+}
+
+.register a:hover {
+    color: rgb(182, 180, 180);
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.social-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.google-btn .icon {
+    width: 20px;
+    height: 20px;
+}
+
+.discord-btn .icon {
+    width: 22px;
+    height: 22px;
+}
