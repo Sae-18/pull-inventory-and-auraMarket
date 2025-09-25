@@ -1,6 +1,6 @@
 import { getStorage, ref, connectStorageEmulator, getDownloadURL } from "firebase/storage";
 import { initializeApp } from "firebase/app";
-import { getFirestore, onSnapshot, runTransaction, getDoc, connectFirestoreEmulator, doc, setDoc, updateDoc, arrayUnion, collection, addDoc, serverTimestamp } from "firebase/firestore"
+import { getFirestore, onSnapshot, runTransaction, getDoc, connectFirestoreEmulator, doc, setDoc, updateDoc, arrayUnion, writeBatch, collection, addDoc, serverTimestamp, getDocs } from "firebase/firestore"
 import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyDytcogmq5L0UO9k59A5bamvdir23rQAJY",
@@ -21,6 +21,19 @@ if (location.hostname === "localhost") {
   connectFirestoreEmulator(db, "127.0.0.1", 8080);
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
 }
+
+
+let masterCardsCache = null;
+
+async function fetchMasterCards() {
+  if (masterCardsCache) return masterCardsCache;
+
+  const snapshot = await getDocs(collection(db, "cards"));
+  masterCardsCache = snapshot.docs.map(doc => doc.data());
+  return masterCardsCache;
+}
+
+
 
 const auraAmount = document.getElementById("aura-amount")
 let userDocRef;
@@ -71,347 +84,130 @@ window.addEventListener("DOMContentLoaded", () => {
   const front = document.createElement("img");
   const cardFronts = document.querySelectorAll(".card-front");
 
-  // Card generator functions (now return Promises)
-  function getCCard(index) {
-    const c = getRndInteger(1, 16);
-    const imagesRef = ref(storageRef, 'Cards/C/' + c + '.png');
-    return getDownloadURL(imagesRef)
-      .then((url) => {
-        pulledCardUrls.push(url);
-        return new Promise((resolve) => {
-          const img = document.createElement("img");
-          img.onload = resolve;
-          img.onerror = resolve; // resolve even if error, to avoid hanging
-          img.setAttribute('src', url);
-          img.className = "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
-          cardFronts[index].appendChild(img);
-        });
-      })
-      .catch((error) => {
-        console.log(error)
-      });
+  // --- PROBABILITY TABLES ---
+  const rarityProbTables = {
+    Burning: {  // Burning Egoists
+      C: 0.60,
+      B: 0.30,
+      A: 0.09,
+      S: 0.009,
+      SS: 0.001,
+    },
+    Diamonds: { // Diamonds in the Rough
+      C: 0.45,
+      B: 0.35,
+      A: 0.15,
+      S: 0.049,
+      SS: 0.001
+    },
+    Demons: {   // Demon Kings
+      C: 0.20,
+      B: 0.40,
+      A: 0.30,
+      S: 0.099,
+      SS: 0.001
+    }
+  };
+
+
+  function randomRarity(probTable) {
+    const r = Math.random();
+    let cumulative = 0;
+
+    for (const [rarity, probability] of Object.entries(probTable)) {
+      cumulative += probability;
+      if (r <= cumulative) return rarity;
+    }
+
+    return "C"; // fallback
   }
 
-  function getBCard(index) {
-    const c = getRndInteger(1, 31);
-    const imagesRef = ref(storageRef, 'Cards/B/' + c + '.png');
-    return getDownloadURL(imagesRef)
-      .then((url) => {
-        pulledCardUrls.push(url);
-        return new Promise((resolve) => {
-          const img = document.createElement("img");
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.setAttribute('src', url);
-          img.className = "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
-          cardFronts[index].appendChild(img);
-        });
-      })
-      .catch((error) => {
-        console.log(error)
-      });
+  function pickCardByRarity(masterCards, rarity) {
+    const filtered = masterCards.filter(c => c.rarity === rarity);
+    if (filtered.length === 0) return undefined; // Defensive: no cards of this rarity
+    return filtered[Math.floor(Math.random() * filtered.length)];
   }
 
-  function getACard(index) {
-    const c = getRndInteger(1, 47);
-    const imagesRef = ref(storageRef, 'Cards/A/' + c + '.png');
-    return getDownloadURL(imagesRef)
-      .then((url) => {
-        pulledCardUrls.push(url);
-        return new Promise((resolve) => {
-          const img = document.createElement("img");
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.setAttribute('src', url);
-          img.className = "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
-          cardFronts[index].appendChild(img);
-        });
-      })
-      .catch((error) => {
-        console.log(error)
-      });
-  }
-  const sCardCharacters = [
-    "Aiku", "BL", "BL2", "Bachira1", "Bachira2", "Barou1", "Charles", "Chigiri1", "Chigiri2",
-    "Gagamaru1", "Gagamaru2", "Gagamaru3", "Hiyori", "Isagi1", "Isagi2", "Isagi3",
-    "Kaiser1", "Kaiser2", "Kaiser3", "Kaiser4", "Kunigami1", "Kunigami2", "Kunigami3", "Kunigami4",
-    "Lorenzo1", "Nagi1", "Nagi2", "Nagi3", "Ness1", "Ness2", "Ness3", "Niko", "Otoya1", "Otoya2",
-    "Reo1", "Reo2", "Rin1", "Rin2", "Sae", "Shidou1", "Shidou2", "Yukimiya1", "Yukimiya2", "karasu"
-    // Add any new character filenames here
-  ];
-
-  function getSCard(index) {
-    const characterFile = sCardCharacters[getRndInteger(0, sCardCharacters.length)];
-    const imagesRef = ref(storageRef, `Cards/S/${characterFile}.png`);
-    return getDownloadURL(imagesRef)
-      .then((url) => {
-        pulledCardUrls.push(url);
-        return new Promise((resolve) => {
-          const img = document.createElement("img");
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.setAttribute('src', url);
-          img.className = "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
-          cardFronts[index].appendChild(img);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function getSSCard(index) {
-    const c = getRndInteger(1, 10);
-    const imagesRef = ref(storageRef, 'Cards/SS/' + c + '.png');
-    return getDownloadURL(imagesRef)
-      .then((url) => {
-        pulledCardUrls.push(url);
-        return new Promise((resolve) => {
-          const img = document.createElement("img");
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.setAttribute('src', url);
-          img.className = "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
-          cardFronts[index].appendChild(img);
-        });
-      })
-      .catch((error) => {
-        console.log(error)
-      });
-  }
-
-  function getSynergyCard(index) {
-    const s = getRndInteger(1, 37); // adjust range later if needed
-    const imagesRef = ref(storageRef, 'Cards/specialcards/greenSynergies/' + s + '.png');
-    return getDownloadURL(imagesRef)
-      .then((url) => {
-        pulledCardUrls.push(url);
-        return new Promise((resolve) => {
-          console.log(url);
-          const img = document.createElement("img");
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.setAttribute('src', url);
-          img.className = "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
-          cardFronts[index].appendChild(img);
-
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function getRivalSynergyCard(index) {
-    const r = getRndInteger(1, 30);
-    const imagesRef = ref(storageRef, 'Cards/specialcards/redSynergies/' + r + '.png');
-    return getDownloadURL(imagesRef)
-      .then((url) => {
-        pulledCardUrls.push(url);
-        return new Promise((resolve) => {
-          const img = document.createElement("img");
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.setAttribute('src', url);
-          img.className = "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
-          cardFronts[index].appendChild(img);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function getEffectCard(index) {
-    const e = getRndInteger(1, 25);
-    const imagesRef = ref(storageRef, 'Cards/specialcards/effectCards/' + e + '.png');
-    return getDownloadURL(imagesRef)
-      .then((url) => {
-        pulledCardUrls.push(url);
-        return new Promise((resolve) => {
-          const img = document.createElement("img");
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.setAttribute('src', url);
-          img.className = "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
-          cardFronts[index].appendChild(img);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function getCharacterBoostCard(index) {
-    const b = getRndInteger(1, 32);
-    const imagesRef = ref(storageRef, 'Cards/specialcards/characterBoosts/' + b + '.png');
-    return getDownloadURL(imagesRef)
-      .then((url) => {
-        pulledCardUrls.push(url);
-        return new Promise((resolve) => {
-          const img = document.createElement("img");
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.setAttribute('src', url);
-          img.className = "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
-          cardFronts[index].appendChild(img);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function getPowerUpCard(index) {
-    const p = getRndInteger(1, 28);
-    const imagesRef = ref(storageRef, 'Cards/specialcards/powerUp/' + p + '.png');
-    return getDownloadURL(imagesRef)
-      .then((url) => {
-        pulledCardUrls.push(url);
-        return new Promise((resolve) => {
-          const img = document.createElement("img");
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.setAttribute('src', url);
-          img.className = "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
-          cardFronts[index].appendChild(img);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-
-  // 🎲 Probability Definitions
-  const commonPackProbabilities = [
-    { tier: "C", chance: 0.60, handler: getCCard },
-    { tier: "B", chance: 0.30, handler: getBCard },
-    { tier: "A", chance: 0.06, handler: getACard },
-    { tier: "S", chance: 0.035, handler: getSCard },
-    { tier: "SS", chance: 0.005, handler: getSSCard }
-  ];
-
-  const rarePackProbabilities = [
-    { tier: "C", chance: 0.19, handler: getCCard },
-    { tier: "B", chance: 0.40, handler: getBCard },
-    { tier: "A", chance: 0.35, handler: getACard },
-    { tier: "S", chance: 0.05, handler: getSCard },
-    { tier: "SS", chance: 0.01, handler: getSSCard }
-  ];
-
-  const legendaryPackProbabilities = [
-    { tier: "B", chance: 0.30, handler: getBCard },
-    { tier: "A", chance: 0.55, handler: getACard },
-    { tier: "S", chance: 0.10, handler: getSCard },
-    { tier: "SS", chance: 0.05, handler: getSSCard }
-  ];
-  const synergiesPackProbabilities = [
-    { tier: "Synergy", chance: 1.0, handler: getSynergyCard }
-  ];
-
-  const rivalSynergiesPackProbabilities = [
-    { tier: "RivalSynergy", chance: 1.0, handler: getRivalSynergyCard }
-  ];
-
-  const effectCardsPackProbabilities = [
-    { tier: "Effect", chance: 1.0, handler: getEffectCard }
-  ];
-
-  const characterBoostsPackProbabilities = [
-    { tier: "CharacterBoost", chance: 1.0, handler: getCharacterBoostCard }
-  ];
-
-  const powerUpsPackProbabilities = [
-    { tier: "PowerUp", chance: 1.0, handler: getPowerUpCard }
-  ];
-
-  // 💥 Pull Logic
-  // 💥 Pull Logic (returns a Promise)
-  function pullFromPack(probabilityArray) {
-    const promises = [];
-    cardFronts.forEach((_, idx) => {
-      const rand = Math.random();
-      let cumulative = 0;
-      for (let i = 0; i < probabilityArray.length; i++) {
-        cumulative += probabilityArray[i].chance;
-        if (rand < cumulative) {
-          promises.push(probabilityArray[i].handler(idx));
-          break;
-        }
-      }
+  function renderCard(card, index) {
+    return new Promise((resolve) => {
+      const img = document.createElement("img");
+      img.onload = resolve;
+      img.onerror = resolve;
+      img.setAttribute("src", `/cards/${card.rarity}/${card.cardId}.png`);
+      img.className =
+        "card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden] pointer-events-none select-none";
+      cardFronts[index].appendChild(img);
     });
-    return Promise.all(promises);
   }
 
-  // 🧠 Dispatcher (returns a Promise)
-  function fetchCard(rarity) {
-    if (rarity === "BurningEgoists") {
-      return pullFromPack(commonPackProbabilities);
+  // --- MAIN PULL FUNCTION ---
+  async function pullCards(packType) {
+    const user = auth.currentUser;
+    if (!user) throw new Error("Not logged in");
+
+    const masterCards = await fetchMasterCards();
+    const batch = writeBatch(db);
+    const pulledCards = [];
+
+    const probTable = rarityProbTables[packType];
+    if (!probTable) throw new Error("Invalid pack type");
+
+    // Default pulls
+    for (let i = 0; i < cardFronts.length; i++) {
+      const rarity = randomRarity(probTable);
+      const card = pickCardByRarity(masterCards, rarity);
+
+      const cardData = {
+        ...card,
+        imagePath: `hosting/public/cards/${card.rarity}/${card.cardId}.png`,
+        timePulled: Date.now()
+      };
+
+      pulledCards.push(cardData);
+      const cardRef = doc(collection(db, "users", user.uid, "inventory"));
+      batch.set(cardRef, cardData);
+
+      await renderCard(card, i);
     }
-    if (rarity === "DiamondsInTheRough") {
-      const promises = [];
-      cardFronts.forEach((_, idx) => {
-        if (idx !== cardFronts.length - 1) {
-          const rand = Math.random();
-          let cumulative = 0;
-          for (let i = 0; i < rarePackProbabilities.length; i++) {
-            cumulative += rarePackProbabilities[i].chance;
-            if (rand < cumulative) {
-              promises.push(rarePackProbabilities[i].handler(idx));
-              break;
-            }
-          }
+
+    // Guarantees
+    if (packType === "Diamonds") {
+      if (!pulledCards.some(c => ["A", "S", "SS"].includes(c.rarity))) {
+        const guaranteed = pickCardByRarity(masterCards, "A");
+        pulledCards[0] = guaranteed;
+        const guaranteedRef = doc(collection(db, "users", user.uid, "inventory"));
+        batch.set(guaranteedRef, guaranteed);
+        while (cardFronts[0].firstChild) {
+          cardFronts[0].removeChild(cardFronts[0].firstChild);
         }
-      });
-      // Guaranteed A rank card in the last slot
-      promises.push(getACard(cardFronts.length - 1));
-      return Promise.all(promises);
+        await renderCard(guaranteed, 0);
+      }
     }
-    if (rarity === "DemonKings") {
-      const promises = [];
-      cardFronts.forEach((_, idx) => {
-        if (idx !== cardFronts.length - 1) {
-          const rand = Math.random();
-          let cumulative = 0;
-          for (let i = 0; i < legendaryPackProbabilities.length; i++) {
-            cumulative += legendaryPackProbabilities[i].chance;
-            if (rand < cumulative) {
-              promises.push(legendaryPackProbabilities[i].handler(idx));
-              break;
-            }
-          }
+
+    if (packType === "Demons") {
+      if (!pulledCards.some(c => ["S", "SS"].includes(c.rarity))) {
+        const guaranteed = pickCardByRarity(masterCards, "S");
+        pulledCards[0] = guaranteed;
+        const guaranteedRef = doc(collection(db, "users", user.uid, "inventory"));
+        batch.set(guaranteedRef, guaranteed);
+        while (cardFronts[0].firstChild) {
+          cardFronts[0].removeChild(cardFronts[0].firstChild);
         }
-      });
-      // Guaranteed S rank card in the last slot
-      promises.push(getSCard(cardFronts.length - 1));
-      return Promise.all(promises);
+        await renderCard(guaranteed, 0);
+      }
     }
-    if (rarity === "Synergies") {
-      return pullFromPack(synergiesPackProbabilities);
-    }
-    if (rarity === "RivalSynergies") {
-      return pullFromPack(rivalSynergiesPackProbabilities);
-    }
-    if (rarity === "EffectCards") {
-      return pullFromPack(effectCardsPackProbabilities);
-    }
-    if (rarity === "CharacterBoosts") {
-      return pullFromPack(characterBoostsPackProbabilities);
-    }
-    if (rarity === "PowerUps") {
-      return pullFromPack(powerUpsPackProbabilities);
-    }
-    return Promise.resolve();
+
+    await batch.commit();
+    return pulledCards;
   }
 
+  // Usage
+  // pullCards("Burning");   // Burning Egoists
+  // pullCards("Diamonds");  // Diamonds in the Rough
+  // pullCards("Demons");    // Demon Kings
 
-  function getRarityFromUrl(url) {
-    const match = url.match(/Cards%2F([A-Z]{1,2})%2F/);
-    return match ? match[1] : null;
-  }
   // Mock aura amount
-  async function purchaseNormalPack(cost = 75, imgUrl = "") {
+  async function purchasePack(cost = 75, imgUrl = "") {
     try {
       await runTransaction(db, async (transaction) => {
         const userDoc = await transaction.get(userMainRef);
@@ -424,7 +220,7 @@ window.addEventListener("DOMContentLoaded", () => {
         transaction.update(userMainRef, { Aura: currentAura - cost });
 
         // Add a card to inventory (new doc in subcollection)
-       
+
       });
 
       // Success → animation
@@ -432,283 +228,208 @@ window.addEventListener("DOMContentLoaded", () => {
 
     } catch (e) {
       console.error("Transaction failed: ", e);
+      throw e;
     }
   }
 
-  const getNowBtnCmn = document.getElementById("get-now-common");
+  let userDocRef;
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      userDocRef = collection(db, "users", user.uid, "inventory");
+      // ...other user-dependent logic...
+    }
+  });
+
+  const getNowBtnCmn = document.querySelectorAll(".get-now-common");
   const packCostCommon = 75;
-  getNowBtnCmn.addEventListener('click', () => {
-    if (aura < packCostCommon) return alert("Not enough Aura!");
-    aura -= packCostCommon;
-    purchaseNormalPack(75);
-    fetchCard("BurningEgoists").then(() => {
-      // ...existing code...
-      const rarities = pulledCardUrls.map(url => getRarityFromUrl(url));
-      const cardInfo = pulledCardUrls.map((url, idx) => ({
-        rarity: rarities[idx],
-        imageURL: url
-      }));
 
-      // Store each card as a new document in the user's inventory subcollection
-      cardInfo.forEach(card => {
-        addDoc(userDocRef, {
-          imageURL: card.imageURL,
-          rarity: card.rarity,
-          Aura: aura,
-          timePulled: serverTimestamp(),
-          pack: "burningEgoists" // If you want to store Aura per card, otherwise remove this line
+  getNowBtnCmn.forEach(button => {
+    button.addEventListener("click", async () => {
+      try {
+        // Use Firestore transaction to check and deduct Aura
+        await purchasePack(packCostCommon);
+
+        // Pull cards from Firestore (this already writes to Firestore)
+        const pulledCards = await pullCards("Burning");
+
+        // GSAP animation
+        gsap.from(".card", {
+          y: 500,
+          duration: 1,
+          ease: "back.out",
+          stagger: 0.2
         });
-      });
 
-      pulledCardUrls.length = 0;
-      // ...existing code...
-      gsap.from(".card", { y: 500, duration: 1, ease: "back.out", stagger: 0.2 });
-      document.getElementById("pack-modal").classList.remove("hidden");
-      closeModal();
-      checkForSpecialCards();
+        // Open modal
+        document.getElementById("pack-modal").classList.remove("hidden");
+
+        // Close modal & run checks
+        closeModal();
+        checkForSpecialCards();
+
+      } catch (err) {
+        alert("Not enough Aura!");
+        console.error("Pull failed:", err);
+      }
     });
   });
 
-  const getNowBtnEpc = document.getElementById("get-now-epic");
+  const getNowBtnEpc = document.querySelectorAll(".get-now-epic");
   const packCostEpic = 150;
-  getNowBtnEpc.addEventListener('click', () => {
-    if (aura < packCostEpic) return alert("Not enough Aura!");
-    aura -= packCostEpic;
-    purchaseNormalPack(150);
-    fetchCard("DiamondsInTheRough").then(() => {
-      // ...existing code...
-      const rarities = pulledCardUrls.map(url => getRarityFromUrl(url));
-      const cardInfo = pulledCardUrls.map((url, idx) => ({
-        rarity: rarities[idx],
-        imageURL: url
-      }));
+  getNowBtnEpc.forEach(button => {
+    button.addEventListener("click", async () => {
+      try {
+        // Use Firestore transaction to check and deduct Aura
+        await purchasePack(packCostEpic);
 
-      // Store each card as a new document in the user's inventory subcollection
-      cardInfo.forEach(card => {
-        addDoc(userDocRef, {
-          imageURL: card.imageURL,
-          rarity: card.rarity,
-          Aura: aura,
-          timePulled: serverTimestamp(),
-          pack: "diamondsInTheRough" // If you want to store Aura per card, otherwise remove this line
+        // Pull cards from Firestore (this already writes to Firestore)
+        const pulledCards = await pullCards("Diamonds");
+
+        // GSAP animation
+        gsap.from(".card", {
+          y: 500,
+          duration: 1,
+          ease: "back.out",
+          stagger: 0.2
         });
-      });
 
-      pulledCardUrls.length = 0;
-      // ...existing code...
-      gsap.from(".card", { y: 500, duration: 1, ease: "back.out", stagger: 0.2 });
-      document.getElementById("pack-modal").classList.remove("hidden");
-      closeModal();
-      checkForSpecialCards();
+        // Open modal
+        document.getElementById("pack-modal").classList.remove("hidden");
+
+        // Close modal & run checks
+        closeModal();
+        checkForSpecialCards();
+
+      } catch (err) {
+        alert("Not enough Aura!");
+        console.error("Pull failed:", err);
+      }
     });
   });
 
-  const getNowBtnLgndry = document.getElementById("get-now-legendary");
+
+  const getNowBtnLgndry = document.querySelectorAll(".get-now-legendary");
   const packCostLegendary = 200;
-  getNowBtnLgndry.addEventListener('click', () => {
-    if (aura < packCostLegendary) return alert("Not enough Aura!");
-    aura -= packCostLegendary;
-    purchaseNormalPack(250);
-    resetCards();
-    fetchCard("DemonKings").then(() => {
-      // ...existing code...
-      const rarities = pulledCardUrls.map(url => getRarityFromUrl(url));
-      const cardInfo = pulledCardUrls.map((url, idx) => ({
-        rarity: rarities[idx],
-        imageURL: url
-      }));
+  getNowBtnLgndry.forEach(button => {
+    button.addEventListener("click", async () => {
+      try {
+        // Use Firestore transaction to check and deduct Aura
+        await purchasePack(packCostLegendary);
 
-      // Store each card as a new document in the user's inventory subcollection
-      cardInfo.forEach(card => {
-        addDoc(userDocRef, {
-          imageURL: card.imageURL,
-          rarity: card.rarity,
-          Aura: aura,
-          timePulled: serverTimestamp(),
-          pack: "demonKings" // If you want to store Aura per card, otherwise remove this line
+        // Pull cards from Firestore (this already writes to Firestore)
+        const pulledCards = await pullCards("Demons");
+
+        // GSAP animation
+        gsap.from(".card", {
+          y: 500,
+          duration: 1,
+          ease: "back.out",
+          stagger: 0.2
         });
-      });
 
-      pulledCardUrls.length = 0;
-      // ...existing code...
-      gsap.from(".card", { y: 500, duration: 1, ease: "back.out", stagger: 0.2 });
-      document.getElementById("pack-modal").classList.remove("hidden");
-      closeModal();
-      setTimeout(checkForSpecialCards, 100);
-      console.log(pulledCardUrls)
+        // Open modal
+        document.getElementById("pack-modal").classList.remove("hidden");
+
+        // Close modal & run checks
+        closeModal();
+        checkForSpecialCards();
+
+      } catch (err) {
+        alert("Not enough Aura!");
+        console.error("Pull failed:", err);
+      }
     });
   });
+
+  function showComingSoon() {
+    const modal = document.getElementById("coming-soon-modal");
+    modal.classList.remove("hidden");
+
+    // Trap focus and close on click
+    function closeModal() {
+      modal.classList.add("hidden");
+      document.removeEventListener("keydown", escHandler);
+    }
+    function escHandler(e) {
+      if (e.key === "Escape") closeModal();
+    }
+
+    document.getElementById("close-coming-soon").onclick = closeModal;
+    document.getElementById("close-coming-soon-x").onclick = closeModal;
+    document.addEventListener("keydown", escHandler);
+
+    // Optional: close when clicking outside the modal box
+    modal.onclick = function (e) {
+      if (e.target === modal) closeModal();
+    };
+  }
+
+
 
   // Synergies Pack
-  const getNowBtnSynergies = document.getElementById("synergies");
+  const getNowBtnSynergies = document.querySelectorAll(".synergies");
   const packCostSynergies = 150;
-  getNowBtnSynergies.addEventListener('click', () => {
-    if (aura < packCostSynergies) return alert("Not enough Aura!");
-    aura -= packCostSynergies;
-    purchaseNormalPack(200);
-    resetCards();
-    fetchCard("Synergies").then(() => {
-      const rarities = pulledCardUrls.map(url => getRarityFromUrl(url));
-      const cardInfo = pulledCardUrls.map((url, idx) => ({
-        rarity: rarities[idx],
-        imageURL: url
-      }));
-      cardInfo.forEach(card => {
-        addDoc(userDocRef, {
-          imageURL: card.imageURL,
-          rarity: card.rarity,
-          Aura: aura,
-          timePulled: serverTimestamp(),
-          pack: "synergies"
-        });
-      });
-      pulledCardUrls.length = 0;
-      // ...existing code...
-      gsap.from(".card", { y: 500, duration: 1, ease: "back.out", stagger: 0.2 });
-      document.getElementById("pack-modal").classList.remove("hidden");
-      closeModal();
-      checkForSpecialCards();
+  getNowBtnSynergies.forEach(button => {
+    button.addEventListener('click', () => {
+      showComingSoon();
     });
   });
+
 
   // Rival Synergies Pack
-  const getNowBtnRival = document.getElementById("rival-synergies");
+  const getNowBtnRival = document.querySelectorAll(".rival-synergies");
   const packCostRival = 150;
-  getNowBtnRival.addEventListener('click', () => {
-    if (aura < packCostRival) return alert("Not enough Aura!");
-    aura -= packCostRival;
-    purchaseNormalPack(200);
-    resetCards();
-    fetchCard("RivalSynergies").then(() => {
-      const rarities = pulledCardUrls.map(url => getRarityFromUrl(url));
-      const cardInfo = pulledCardUrls.map((url, idx) => ({
-        rarity: rarities[idx],
-        imageURL: url
-      }));
-      cardInfo.forEach(card => {
-        addDoc(userDocRef, {
-          imageURL: card.imageURL,
-          rarity: card.rarity,
-          Aura: aura,
-          timePulled: serverTimestamp(),
-          pack: "rivalSynergies"
-        });
-      });
-      pulledCardUrls.length = 0;
-      // ...existing code...
-      gsap.from(".card", { y: 500, duration: 1, ease: "back.out", stagger: 0.2 });
-      document.getElementById("pack-modal").classList.remove("hidden");
-      closeModal();
-      checkForSpecialCards();
+  getNowBtnRival.forEach(button => {
+    button.addEventListener('click', () => {
+      showComingSoon();
     });
   });
+
 
   // Effect Cards Pack
-  const getNowBtnEffect = document.getElementById("effect-cards");
+  const getNowBtnEffect = document.querySelectorAll(".effect-card");
   const packCostEffect = 100;
-  getNowBtnEffect.addEventListener('click', () => {
-    if (aura < packCostEffect) return alert("Not enough Aura!");
-    aura -= packCostEffect;
-    purchaseNormalPack(150);
-    resetCards();
-    fetchCard("EffectCards").then(() => {
-      const rarities = pulledCardUrls.map(url => getRarityFromUrl(url));
-      const cardInfo = pulledCardUrls.map((url, idx) => ({
-        rarity: rarities[idx],
-        imageURL: url
-      }));
-      cardInfo.forEach(card => {
-        addDoc(userDocRef, {
-          imageURL: card.imageURL,
-          rarity: card.rarity,
-          Aura: aura,
-          timePulled: serverTimestamp(),
-          pack: "effectCards"
-        });
-      });
-      pulledCardUrls.length = 0;
-      // ...existing code...
-      gsap.from(".card", { y: 500, duration: 1, ease: "back.out", stagger: 0.2 });
-      document.getElementById("pack-modal").classList.remove("hidden");
-      closeModal();
-      checkForSpecialCards();
+  getNowBtnEffect.forEach(button => {
+    button.addEventListener('click', () => {
+      showComingSoon();
     });
   });
+
 
   // Character Boosts Pack
-  const getNowBtnBoosts = document.getElementById("character-boosts");
+  const getNowBtnBoosts = document.querySelectorAll(".character-boost");
   const packCostBoosts = 120;
-  getNowBtnBoosts.addEventListener('click', () => {
-    if (aura < packCostBoosts) return alert("Not enough Aura!");
-    aura -= packCostBoosts;
-    purchaseNormalPack(180);
-    resetCards();
-    fetchCard("CharacterBoosts").then(() => {
-      const rarities = pulledCardUrls.map(url => getRarityFromUrl(url));
-      const cardInfo = pulledCardUrls.map((url, idx) => ({
-        rarity: rarities[idx],
-        imageURL: url
-      }));
-      cardInfo.forEach(card => {
-        addDoc(userDocRef, {
-          imageURL: card.imageURL,
-          rarity: card.rarity,
-          Aura: aura,
-          timePulled: serverTimestamp(),
-          pack: "characterBoosts"
-        });
-      });
-      pulledCardUrls.length = 0;
-      // ...existing code...
-      gsap.from(".card", { y: 500, duration: 1, ease: "back.out", stagger: 0.2 });
-      document.getElementById("pack-modal").classList.remove("hidden");
-      closeModal();
-      checkForSpecialCards();
+  getNowBtnBoosts.forEach(button => {
+    button.addEventListener('click', () => {
+      showComingSoon();
     });
   });
 
+
+
   // Power Ups Pack
-  const getNowBtnPowerUps = document.getElementById("power-ups");
+  const getNowBtnPowerUps = document.querySelectorAll(".power-up");
   const packCostPowerUps = 130;
-  getNowBtnPowerUps.addEventListener('click', () => {
-    if (aura < packCostPowerUps) return alert("Not enough Aura!");
-    aura -= packCostPowerUps;
-    purchaseNormalPack(190);
-    resetCards();
-    fetchCard("PowerUps").then(() => {
-      const rarities = pulledCardUrls.map(url => getRarityFromUrl(url));
-      const cardInfo = pulledCardUrls.map((url, idx) => ({
-        rarity: rarities[idx],
-        imageURL: url
-      }));
-      cardInfo.forEach(card => {
-        addDoc(userDocRef, {
-          imageURL: card.imageURL,
-          rarity: card.rarity,
-          Aura: aura,
-          timePulled: serverTimestamp(),
-          pack: "powerUps"
-        });
-      });
-      pulledCardUrls.length = 0;
-      // ...existing code...
-      gsap.from(".card", { y: 500, duration: 1, ease: "back.out", stagger: 0.2 });
-      document.getElementById("pack-modal").classList.remove("hidden");
-      closeModal();
-      checkForSpecialCards();   
+  getNowBtnPowerUps.forEach(button => {
+    button.addEventListener('click', () => {
+      showComingSoon();
+
     });
   });
+
+
+
   function checkForSpecialCards() {
     console.log("detected");
 
     cardFronts.forEach((front, idx) => {
       const img = front.querySelector("img");
-      console.log(`Card ${idx}:`, img, img ? img.src : "no img");
       // ...existing code...
       if (
         img &&
         img.src &&
-        (img.src.includes("Cards%2FS%2F") || img.src.includes("Cards%2FSS%2F"))
+        (img.src.includes("/cards/S/") || img.src.includes("/cards/SS/"))
       ) {
         runSpecialAnimationDamn(img.src);
       }
@@ -729,165 +450,165 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
   const sCardAnimations = {
-    "Aiku": {
+    "S23": {
       quote: "“For the rebirth of Japanese football, I am the final wall!” ",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/aiku.png?raw=true"
     },
-    "BL": {
+    "S19": {
       quote: "“ Luck descends equally upon only those who are truly prepared to fight” ",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Ego.png?raw=true"
     },
-    "BL2": {
+    "S27": {
       quote: "Stand out. Talent is just a lump of ore... and if you don't smelt and polish it, it's nothing but trash",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Ego2.png?raw=true"
     },
-    "Bachira1": {
+    "S08": {
       quote: "It's not a matter of making the right choice... I'll make it so the path I choose is the right one.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Bachira1.png?raw=true"
 
-    }, "Bachira2": {
+    }, "S41": {
       quote: "In this whole wide world, i'm the only one that can save me.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Bachira2.png?raw=true"
     },
-    "Barou": {
+    "S20": {
       quote: "On the field, there is already one true king.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Barou2.png?raw=true"
-    }, "Charles": {
+    }, "S30": {
       quote: "Well, the more you tell me to do something, the less I wanna. Guess that makes me a contrarian.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Charles.png?raw=true"
     },
-    "Chigiri1": {
+    "S12": {
       quote: "This is the moment I’ve been waiting for…my speed, will roar through the world!!",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/chigiri.png?raw=true"
-    }, "Chigiri2": {
+    }, "S44": {
       quote: "Your evolution's slow, blue lockers.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Chigiri2.png?raw=true"
     },
-    "Gagamaru1": {
+    "S18": {
       quote: "Are you the goalkeeper? Today's The first time I'm playing as one.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Gagamaru2.png?raw=true"
-    }, "Gagamaru2": {
+    }, "S26": {
       quote: "It's still just a copy.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Gagamaru2.png?raw=true"
     },
-    "Gagamaru3": {
+    "S36": {
       quote: "I finally get the ball again.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Gagamaru2.png?raw=true"
-    }, "Hiyori": {
+    }, "S38": {
       quote: "Just stop. Disgusting. Don’t heap your expectations on me ever again",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/hiyori1.png?raw=true"
     },
-    "Isagi": {
+    "S15": {
       quote: "How does it feel to be the clown of my story?",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/isagi 1.png?raw=true"
-    }, "Isagi2": {
+    }, "S24": {
       quote: "Become the one that chooses, not the one that gets chosen.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/isagi 1.png?raw=true"
     },
-    "Isagi3": {
+    "S35": {
       quote: "I need you to shut up genius, I'm about to get to the good part ",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/isagi 1.png?raw=true"
-    }, "Kaiser1": {
+    }, "S06": {
       quote: "All the hope we need is in the fact that I’m around, and nothing else",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Kaiser1.png?raw=true"
     },
-    "Kaiser2": {
+    "S13": {
       quote: "For me, nothing is impossible.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Kaiser2.png?raw=true"
-    }, "Kaiser3": {
+    }, "S29": {
       quote: "Auf die Knie Blue Lock!",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Kaiser3.png?raw=true"
     },
-    "Kaiser4": {
+    "S34": {
       quote: "I was and will be alone, God's own chosen emperor.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Kaiser3.png?raw=true"
     },
 
-    "Kunigami1": {
+    "S05": {
       quote: "I follow my own way of dominance. Go bark up another tree, you parasite",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Kunigami.png?raw=true"
     },
-    "Kunigami2": {
+    "S16": {
       quote: "I don't call myself that anymore, I left that childish dumbassery in hell.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Kunigami.png?raw=true"
     },
-    "Kunigami3": {
+    "S25": {
       quote: "Don't forget about this dark horse.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Kunigami.png?raw=true"
     },
-    "Kunigami4": {
+    "S39": {
       quote: "Egoists are all talk, huh?",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Kunigami.png?raw=true"
-    }, "Lorenzo": {
+    }, "S21": {
       quote: "Huh? Aren't you worth absolutely zero? Can I call you Mr. Worthless?",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Lorenzo.png?raw=true"
     },
-    "Nagi1": {
+    "S01": {
       quote: "Nice to meet you Japan, I am Nagi Seishiro.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Nagi1.png?raw=true"
-    }, "Nagi2": {
+    }, "S10": {
       quote: "I don't care if i have to crush Blue Lock.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Nagi2.png?raw=true"
     },
-    "Nagi3": {
+    "S42": {
       quote: "This is such a hassle.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Nagi2.png?raw=true"
 
 
-    }, "Ness1": {
+    }, "S07": {
       quote: "It's over, bee boy; the same rhythm won't work again",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Ness.png?raw=true"
     },
-    "Ness2": {
+    "S14": {
       quote: "With my ego, I want to cast a spell on your broken self.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Ness2.png?raw=true"
-    }, "Ness3": {
+    }, "S28": {
       quote: "A violation of loyalty to Kaiser. That’s your first yellow card.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Ness2.png?raw=true"
     },
-    "Niko": {
+    "S22": {
       quote: "Oh, sorry I stepped on you. I mistook you for a bug.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Niko.png?raw=true"
-    }, "Otoya1": {
+    }, "S09": {
       quote: "It’s ‘survival ego-ego rock, paper, scissors.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Otoya.png?raw=true"
     },
-    "Otoya2": {
+    "S40": {
       quote: "Oh, hell yes. Fight, fight. I love these kinds of fights. It’s like Fight Club.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Otoya.png?raw=true"
-    }, "Reo1": {
+    }, "S11": {
       quote: "But if I pass up this opportunity, I might not get a second chance.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Reo.png?raw=true"
     },
-    "Reo2": {
+    "S43": {
       quote: "It’s not so easy to decide, is it?",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Reo.png?raw=true"
-    }, "Rin1": {
+    }, "S04": {
       quote: "You’re operating at such a low level, I might actually die of boredom.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/rin1.png?raw=true"
     },
-    "Rin2": {
+    "S31": {
       quote: "You will be the closest one to me watching as I conquer the world.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Rin1.png?raw=true"
-    }, "Sae": {
+    }, "S03": {
       quote: "I'm taking this game to the next level.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Sae2.png?raw=true"
     },
-    "Shidou1": {
+    "S02": {
       quote: "Football’s not just fun and games. It’s the very act of living… an explosion of life, you could say.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Shidou.png?raw=true"
-    }, "Shidou2": {
+    }, "S33": {
       quote: "Hey genius, is a lifeform like me not enough of a reason for you to fight?",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Shidou2.png?raw=true"
     },
-    "Yukimiya1": {
+    "S17": {
       quote: "God never gives us more than we can handle.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Yukimiya.png?raw=true"
-    }, "Yukimiya2": {
+    }, "S37": {
       quote: "No matter how far I fall, I won't hand over this ego. Not even to God himself!",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/Yukimiya.png?raw=true"
     },
-    "karasu": {
+    "S32": {
       quote: "All that crap about people’s expectations. Think about that later. Start with yourself. Believe in yourself.",
       image: "https://github.com/Sae-18/assets-for-tcg/blob/main/animationImages/karasu.png?raw=true"
     },
@@ -896,38 +617,66 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   function getCharacterFromPath(cardUrl) {
-    // Example: cardUrl = ".../Cards/S/Kaiser_1.png?..."
-    const match = cardUrl.match(/S%2F([A-Za-z0-9]+)\.png/);
-    return match ? match[1].split("_")[0] : null; // "Kaiser"
+    // Example: cardUrl = ".../cards/S/S01.png"
+    const match = cardUrl.match(/\/cards\/[A-Z]+\/([A-Z0-9]+)\.png/);
+    return match ? match[1] : null; // "S01"
+  }
+
+  let split;
+  let currentTL;
+
+  function isMobile() {
+    return window.matchMedia("(max-width: 768px)").matches;
   }
 
   function showSCardAnimation(cardUrl) {
     const character = getCharacterFromPath(cardUrl);
+    const baseImg = document.querySelector(".base-img");
+    const textEl = document.getElementById("animation-text");
+
     if (character && sCardAnimations[character]) {
-      document.querySelector(".base-img").src = sCardAnimations[character].image;
-      document.getElementById("animation-text").textContent = sCardAnimations[character].quote;
+      baseImg.src = sCardAnimations[character].image;
+      textEl.textContent = sCardAnimations[character].quote;
     } else {
-      // fallback/default
-      document.querySelector(".base-img").src = "default.png";
-      document.getElementById("animation-text").textContent = "A true egoist never gives up.";
+      baseImg.src = "default.png";
+      textEl.textContent = "A true egoist never gives up.";
     }
+
+    // adjust font size dynamically for mobile
+    textEl.style.fontSize = isMobile() ? "14px" : "24px";
+    textEl.style.lineHeight = isMobile() ? "1.3" : "1.6";
+    textEl.style.wordWrap = "break-word";
+    textEl.style.whiteSpace = "normal"; // prevent overflow
+    textEl.style.textAlign = "center";  // keep it neat
   }
 
   function runSpecialAnimationDamn(cardUrl) {
+    // Kill old timeline + split to avoid ghosts
+    if (currentTL) currentTL.kill();
+    if (split) split.revert();
 
+    // Inject the new animation assets
     showSCardAnimation(cardUrl);
 
-    // Set initial position via GSAP (optional, already done via CSS)
-    gsap.set(".base-img", { y: 140, opacity: 0 });
-    gsap.set(".text-img", { y: -300, opacity: 0 });
-    let split = new SplitText(".animation-text", { type: "chars" });
+    const baseImg = document.querySelector(".base-img");
+    const textEl = document.getElementById("animation-text");
 
-    document.getElementById("animation-text").style.color = getRandomColor();
+    // Reset positions before anim
+
+    gsap.set(baseImg, { y: isMobile() ? 80 : 140, opacity: 0 });
+    gsap.set(".text-img", { y: isMobile() ? -150 : -300, opacity: 0 });
+
+    // Proper wrapping: split into words + chars
+    split = new SplitText(textEl, { type: "words,chars" });
+
+    // Give text a fresh color
+    textEl.style.color = getRandomColor();
 
     gsap.set(split.chars, { opacity: 0 });
 
-
+    // Build timeline
     const tl = gsap.timeline();
+    currentTL = tl;
 
     // Blackout screen
     tl.to("#blackout", {
@@ -936,70 +685,73 @@ window.addEventListener("DOMContentLoaded", () => {
       ease: "power2.inOut"
     });
 
-    tl.call(() => {
-      sfx.push.play();
-    }, null, "+=-0.0"); // Delay of 1.2 seconds after previous animation
+    // Play SFX
+    tl.call(() => sfx.push.play());
 
+    // Fade in text box
+    tl.to(".animation-box", { opacity: 1 });
 
-
-    // Drop text image
-
-
-    tl.to(".animation-box", {
-      opacity: 1,
-    });
-
+    // Typewriter (character by character)
     tl.to(split.chars, {
       opacity: 1,
       ease: "power1.inOut",
       stagger: {
         each: 0.05,
-        onStart: function () {
-          sfx.type.rate(0.9 + Math.random() * 0.2); // optional pitch variety
+        onStart: () => {
+          sfx.type.rate(0.9 + Math.random() * 0.2);
           sfx.type.play();
         }
-      }, // how fast each letter appears
-      duration: 0.05,
+      },
+      duration: 0.05
     });
 
+    // Drop base image AFTER text
+    tl.to(baseImg, {
+      y: isMobile() ? -300 : -50,
+      opacity: 1,
+      duration: isMobile() ? 0.8 : 1,
+      ease: "power1.out"
+    }, "+=0.2");
 
-
-
-    // Drop base image AFTER text image
-    tl.to(".base-img", { y: -50, opacity: 1, duration: 1, ease: "power1.out" }, "+=0.0")
-
-    // Hold the image for a while
-    tl.to([".base-img", ".animation-box"], {
-      duration: 1, // <- Make this as long as you want
+    // Hold
+    tl.to([baseImg, ".animation-box"], {
+      duration: isMobile() ? 0.8 : 1,
       opacity: 1,
       ease: "none"
     });
 
-    // Fade out both images
-    tl.to([".base-img", ".animation-box"], {
+    // Fade out everything
+    tl.to([baseImg, ".animation-box"], {
       opacity: 0,
       duration: 0.6,
       ease: "power2.inOut"
     });
 
-    // Fade out blackout slightly later
+    // Fade out blackout
     tl.to("#blackout", {
       opacity: 0,
       duration: 0.6,
       ease: "power2.inOut"
-    }, "-=0.3"); // Overlap fade out
+    }, "-=0.3");
+
+    // Cleanup after animation
+    tl.call(() => {
+      if (split) split.revert();
+    });
   }
+
+
 
 
 
   var sfx = {
     push: new Howl({
-      src: "https://files.catbox.moe/b71v87.mp3",
+      src: "Assets/sAnimationAudio.mp3",
       volume: 0.6
     }),
     type: new Howl({
       src: "https://files.catbox.moe/j48646.mp3",
-      volume: 0.4 // adjust to your taste
+      volume: 0.6 // adjust to your taste
     })
   }
 
@@ -1099,76 +851,89 @@ window.addEventListener("DOMContentLoaded", () => {
       document.removeEventListener("click", outsideClickHandler);
     }
   }
-
-
   const modal = document.getElementsByClassName("modal-container");
   const pack = document.querySelectorAll(".pack-image");
   const overlay = document.getElementById("modal-overlay");
 
+  // Helper function to open modal with GSAP
+  function openModal(id, className) {
+    const element = document.getElementById(id);
+    element.classList.remove("hidden");
+    gsap.to("." + className, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.4,
+      ease: "power2.out",
+      zIndex: 5
+    });
+  }
+
   pack.forEach(element => {
     element.addEventListener("click", () => {
-      console.log("hmm")
+      console.log("Pack clicked");
       gsap.to(overlay, { opacity: 1, duration: 0.3 });
+
+      // Desktop or mobile?
+      const isMobile = window.innerWidth < 768;
+
       if (element.classList.contains("common")) {
-        const element = document.getElementById("team-z");
-        element.classList.remove("hidden");
-        gsap.to(".team-z",
-          { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out", zIndex: 5 }
-        );
+        if (isMobile) {
+          openModal("team-z-mobile", "team-z"); // mobile modal
+        } else {
+          openModal("team-z", "team-z"); // desktop modal
+        }
       }
       else if (element.classList.contains("epic")) {
-        const element = document.getElementById("team-v");
-        element.classList.remove("hidden");
-        gsap.to(".team-v",
-          { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out", zIndex: 5 }
-        );
+        if (isMobile) {
+          openModal("team-v-mobile", "team-v"); // mobile modal
+        } else {
+          openModal("team-v", "team-v"); // desktop modal
+        }
       }
       else if (element.classList.contains("legendary")) {
-        const element = document.getElementById("team-a");
-        element.classList.remove("hidden");
-        gsap.to(".team-a",
-          { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out", zIndex: 5 }
-        );
+        if (isMobile) {
+          openModal("team-a-mobile", "team-a"); // mobile modal
+        } else {
+          openModal("team-a", "team-a"); // desktop modal
+        }
       }
       else if (element.classList.contains("green-cards")) {
-        const element = document.getElementById("greenCards");
-        element.classList.remove("hidden");
-        gsap.to(".greenCards",
-          { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out", zIndex: 5 }
-        );
+        if (isMobile) {
+          openModal("greenCards-mobile", "greenCards-mobile"); // mobile modal
+        } else {
+          openModal("greenCards", "greenCards"); // desktop modal
+        }
       }
       else if (element.classList.contains("red-cards")) {
-        const element = document.getElementById("redCards")
-        element.classList.remove("hidden");
-        gsap.to(".redCards",
-          { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out", zIndex: 5 }
-        );
+        if (isMobile) {
+          openModal("redCards-mobile", "redCards-mobile"); // mobile modal
+        } else {
+          openModal("redCards", "redCards"); // desktop modal
+        }
       }
       else if (element.classList.contains("power-ups")) {
-        const element = document.getElementById("powerUps");
-        element.classList.remove("hidden");
-        gsap.to(".powerUps",
-          { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out", zIndex: 5 }
-        );
+        if (isMobile) {
+          openModal("powerUps-mobile", "powerUps-mobile"); // mobile modal
+        } else {
+          openModal("powerUps", "powerUps"); // desktop modal
+        }
       }
       else if (element.classList.contains("effect-cards")) {
-        const element = document.getElementById("effectCards")
-        element.classList.remove("hidden");
-        gsap.to(".effectCards",
-          { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out", zIndex: 5 }
-        );
+        if (isMobile) {
+          openModal("effectCards-mobile", "effectCards-mobile"); // mobile modal
+        } else {
+          openModal("effectCards", "effectCards"); // desktop modal
+        }
       }
       else if (element.classList.contains("character-boosts")) {
-        const element = document.getElementById("characterBoosts")
-        element.classList.remove("hidden");
-        gsap.to(".characterBoosts",
-          { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out", zIndex: 5 }
-        );
+        if (isMobile) {
+          openModal("characterBoosts-mobile", "characterBoosts-mobile"); // mobile modal
+        } else {
+          openModal("characterBoosts", "characterBoosts"); // desktop modal
+        }
       }
     });
   });
-
-
 
 
   const close = document.querySelectorAll(".close");

@@ -1,3 +1,4 @@
+import { startAfter } from "firebase/firestore";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
     getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, connectAuthEmulator
@@ -5,7 +6,7 @@ import {
 import {
     getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot,
     collection, getDocs, addDoc, connectFirestoreEmulator,
-    writeBatch, deleteDoc
+    writeBatch, limit, orderBy, deleteDoc, query
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -52,14 +53,70 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
+let lastVisible = null;
+let pageHistory = []; // stack of snapshots for prev page
+let currentPage = 0;
+
 // 📦 Load inventory
-async function loadInventory(uid = currentUser?.uid) {
+async function loadInventory(uid = currentUser?.uid, direction = "first") {
     if (!uid) {
         console.warn("No UID passed to loadInventory");
         return;
     }
-    const invRef = collection(db, "users", uid, "inventory");
-    const snapshot = await getDocs(invRef);
+
+    let invQuery;
+
+    if (direction === "first") {
+        invQuery = query(
+            collection(db, "users", uid, "inventory"),
+            orderBy("timePulled", "asc"),
+            limit(10)
+        );
+        pageHistory = [];
+        currentPage = 0;
+    } else if (direction === "next" && lastVisible) {
+        invQuery = query(
+            collection(db, "users", uid, "inventory"),
+            orderBy("timePulled", "asc"),
+            startAfter(lastVisible), // ✅ pass the doc snapshot itself
+            limit(10)
+        );
+    } else if (direction === "prev" && currentPage > 1) {
+        const prevSnapshot = pageHistory[currentPage - 2]; // this is a doc snapshot
+        invQuery = query(
+            collection(db, "users", uid, "inventory"),
+            orderBy("timePulled", "asc"),
+            startAfter(prevSnapshot), // ✅ also a doc snapshot
+            limit(10)
+        );
+        currentPage -= 2;
+    } else {
+        console.log("No more pages in that direction");
+        return;
+    }
+
+    const snapshot = await getDocs(invQuery);
+
+    if (snapshot.empty) {
+        console.log("No more cards.");
+        return;
+    }
+
+    // Update state
+    lastVisible = snapshot.docs[snapshot.docs.length - 1];
+    pageHistory[currentPage] = snapshot.docs[0]; // store snapshot, not just value
+    currentPage++;
+    // Key events
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") {
+            loadInventory(uid, "next");
+        } else if (e.key === "ArrowLeft") {
+            loadInventory(uid, "prev");
+        }
+    });
+
+    // Initial load
+    loadInventory(uid, "first");
 
     const inventoryDiv = document.getElementById("inventory");
     inventoryDiv.innerHTML = ""; // clear

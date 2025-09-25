@@ -11,6 +11,8 @@
   "description": "",
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
+    "csv-parser": "^3.2.0",
+    "firebase-admin": "^13.5.0",
     "gsap": "^3.13.0"
   },
   "devDependencies": {

@@ -1,0 +1,149 @@
+cardID,character,name,rarity,position,shooting,shooting_cost,dribbling,dribbling_cost,speed,speed_cost,defending,defending_cost,passing,passing_cost,stamina
+C01,Kuton Wataru,Kuton Wataru,C,Midfielder,67,2,65,2,65,2,66,2,67,2,11
+C02,Igarashi Gurimu,Igarashi Gurimu,C,Defender,60,2,61,2,59,2,64,2,62,2,8
+C03,Gagamaru Gin,Gagamaru Gin,C,Striker,72,4,64,3,66,3,64,3,67,2,12
+C04,Raichi Jingo,Raichi Jingo,C,Defender,67,2,65,3,68,3,72,4,69,2,16
+C05,Okuhito Lemon,Okuhito Lemon,C,Goalkeeper,55,1,58,2,67,2,74,3,62,2,15
+C06,Wanima Keisuke,Wanima Keisuke,C,Midfielder,71,4,69,3,67,2,70,2,70,2,14
+C07,Wanima Junichi,Wanima Junichi,C,Midfielder,70,4,70,3,67,2,69,2,69,2,14
+C08,Okawa Hibiki,Okawa Hibiki,C,Striker,72,4,68,3,65,3,56,2,63,2,13
+C09,Niko Ikki,Niko Ikki,C,Striker,68,3,67,3,67,3,73,3,71,2,12
+C10,Naruhaya Asahi,Naruhaya Asahi (striker),C,Striker,72,3,71,3,69,3,70,2,72,2,13
+C11,Isagi Yoichi,Isagi Yoichi,C,Midfielder,69,4,67,3,64,2,68,2,71,2,13
+C12,Bachira Meguru,Bachira Meguru,C,Striker,68,3,72,4,63,3,59,2,74,3,12
+C13,Kunigami Rensuke,Kunigami Rensuke,C,Striker,74,4,69,3,61,3,55,2,68,2,15
+C14,Chigiri Hyoma,Chigiri Hyoma,C,Defender,67,3,68,3,73,3,63,2,69,2,10
+C15,Imamura Yudai,Imamura Yudai,C,Defender,64,3,66,3,61,3,65,2,67,2,11
+C16,Naruhaya Asahi,Naruhaya Asahi (defender),C,Defender,66,3,68,3,60,3,64,2,68,2,11
+B01,Kira Ryosuke,Kira Ryosuke,B,Striker,74,4,68,3,69,3,63,2,66,3,13
+B02,Barou Shouei,Barou Shouei (TEAM X ),B,Striker,77,4,73,4,70,3,62,2,58,3,15
+B03,Zantetsu Tsurugi,Zantetsu Tsurugi ( TEAM V ),B,Striker,74,4,66,3,74,4,67,2,68,2,14
+B04,Reo Mikage,Reo Mikage ( TEAM V ),B,Striker,72,4,73,4,70,3,71,3,75,3,15
+B05,Seishiro Nagi,Seishiro Nagi ( TEAM V ),B,Striker,76,4,74,4,71,3,67,2,70,2,16
+B06,Aryu Jyubei,Aryu Jyubei ( VS BACHIRA),B,Striker,76,3,71,3,71,3,78,4,74,3,17
+B07,Tokimitsu Aoshi,Tokimitsu Aoshi ( VS BACHIRA),B,Midfielder,72,3,74,3,75,4,70,2,76,3,19
+B08,Isagi Yoichi,Isagi Yoichi ( X NAGI X BACHIRA ),B,Striker,76,3,70,2,69,2,72,3,75,3,16
+B09,Nagi Seishiro,Nagi Seishiro ( X ISAGI X BACHIRA ),B,Striker,78,4,75,3,72,3,68,2,72,2,17
+B10,Bachira Meguru,Bachira Meguru ( X ISAGI X NAGI ),B,Striker,72,3,78,4,70,3,67,2,77,3,16
+B11,Isagi Yoichi,Isagi Yoichi ( VS BAROU ),B,Striker,78,4,72,3,70,3,73,3,78,3,17
+B12,Barou Shouei,Barou Shouei ( VS ISAGI NAGI ),B,Striker,80,4,75,3,73,3,64,2,60,2,18
+B13,Nagi Seishiro,Nagi Seishiro ( VS BAROU ),B,Striker,81,4,77,4,73,3,70,3,75,3,18
+B14,Kunigami Rensuke,Kunigami Rensuke ( 3V3 ),B,Striker,80,4,72,4,70,3,70,3,70,2,17
+B15,Reo Mikage,Reo Mikage( 3V3 ),B,Striker,73,3,74,3,72,3,73,3,78,4,17
+B16,Chigiri Hyoma,Chigiri Hyoma( 3V3 ),B,Striker,74,3,71,3,76,3,70,2,72,2,14
+B17,Barou Shouei,Barou Shouei( 3V3 ),B,Striker,82,4,77,4,74,3,68,3,68,2,18
+B18,Nagi Seishiro,Nagi Seishiro( 3V3 ),B,Striker,83,4,78,4,75,3,74,3,76,3,18
+B19,Isagi Yoichi,Isagi Yoichi( 3V3 ),B,Striker,81,4,75,3,71,2,75,3,80,4,18
+B20,Isagi Yoichi,Isagi Yoichi (4V4),B,Striker,82,4,76,3,73,3,77,3,81,4,18
+B21,Barou Shouei,Barou Shouei (4V4),B,Striker,83,4,79,4,75,3,69,2,71,2,19
+B22,Nagi Seishiro,Nagi Seishiro (4V4),B,Striker,85,4,81,4,76,3,76,3,77,3,18
+B23,Bachira Meguru,Bachira Meguru (4V4),B,Striker,81,4,83,4,74,3,69,2,81,3,16
+B24,Tokimitsu Aoshi,Tokimitsu Aoshi (4V4),B,Midfielder,78,3,77,3,76,3,72,2,78,2,20
+B25,Chigiri Hyoma,Chigiri Hyoma (4V4),B,Striker,76,3,73,3,79,3,74,3,73,2,16
+B26,Aryu Jyubei,Aryu Jyubei (4V4),B,Striker,79,4,74,3,74,3,80,4,75,3,17
+B27,Hiori Yo,Hiori Yo ( 2ND SEL ),B,Midfielder,74,3,73,3,75,3,74,2,81,4,17
+B28,Nanase Nijiro,Nanase Nijiro ( 2ND SEL ),B,Defender,71,3,70,2,73,3,75,3,78,3,17
+B29,Reo Mikage,Reo Mikage ( 2ND SEL ),B,Striker,78,3,76,3,76,3,75,3,79,3,18
+B30,Isagi Yoichi,Isagi Yoichi ( 2ND SEL ),B,Striker,84,4,77,3,75,3,77,3,82,3,18
+B31,Chigiri Hyoma,Chigiri Hyoma ( WND SEL ),B,Striker,77,3,76,3,82,4,76,3,76,2,17
+A01,Otoya Eita,Otoya Eita ( 2ND SEL ),A,Striker,82,4,84,4,78,3,76,3,80,3,18
+A02,Karasu Tabito,Karasu Tabito ( 2ND SEL ),A,Striker,83,4,84,3,76,3,78,3,81,3,19
+A03,Yukimiya Kenyu,Yukimiya Kenyu ( 2ND SEL ),A,Striker,84,4,85,4,79,3,70,2,79,3,19
+A04,Shidou Ryusei,Shidou Ryusei ( 2ND SEL ),A,Striker,87,4,82,3,78,3,72,3,77,3,19
+A05,Nagi Seishiro,Nagi Seishiro ( 2ND SEL ),A,Striker,88,4,83,4,77,3,77,3,78,3,19
+A06,Rin Itoshi,Rin Itoshi (4v4),A,Striker,84,4,82,4,76,3,77,3,85,3,18
+A07,Rin Itoshi,Rin Itoshi (3v3),A,Striker,82,4,81,4,73,3,76,3,84,3,18
+A08,Rin Itoshi,Rin Itoshi ( 2ND SEL ),A,Striker,86,4,84,4,77,3,78,2,86,4,19
+A09,Isagi Yoichi,Isagi Yoichi (U20),A,Striker,87,4,81,3,77,3,80,3,84,3,19
+A10,Barou Shouei,Barou Shouei (U20),A,Striker,86,4,83,3,78,3,75,3,73,2,19
+A11,Yukimiya Kenyu,Yukimiya Kenyu (U20),A,Midfielder,87,4,87,4,82,3,72,2,82,3,19
+A12,Reo Mikage,Reo Mikage (U20),A,Defender,79,3,77,3,78,3,85,4,81,3,19
+A13,Chigiri Hyoma,Chigiri Hyoma (U20),A,Defender,79,3,78,3,86,4,81,2,78,2,18
+A14,Karasu Tabito,Karasu Tabito (U20),A,Midfielder,84,4,84,4,79,3,80,3,84,3,19
+A15,Gagamaru Gin,Gagamaru Gin (U20),A,Goalkeeper,75,3,70,3,82,2,89,3,86,2,18
+A16,Blue Lock Man,Blue Lock Man,A,Goalkeeper,75,3,70,3,80,2,85,3,84,2,17
+A17,Hiori Yo,Hiori Yo (U20),A,Midfielder,79,4,76,3,78,2,77,2,86,3,18
+A18,Aryu Jyubei,Aryu Jyubei (U20),A,Striker,81,3,75,3,78,3,84,4,77,2,18
+A19,Bachira Meguru,Bachira Meguru (U20),A,Striker,84,4,88,4,79,3,73,2,85,3,17
+A20,Otoya Eita,Otoya Eita (U20),A,Striker,83,4,85,3,81,3,77,2,82,3,18
+A21,Oliver Aiku,Oliver Aiku (U20),A,Defender,79,3,77,3,81,3,88,4,81,2,19
+A22,Niko Ikki,Niko Ikki (U20),A,Defender,75,3,76,3,80,3,86,3,83,2,17
+A23,Shuto Sendo,Shuto Sendo (U20),A,Striker,86,4,82,3,79,3,80,3,84,3,18
+A24,Kazuma Niou,Kazuma Niou (U20),A,Defender,74,2,73,2,78,3,85,4,81,3,18
+A25,Miroku Darai,Miroku Darai (U20),A,Defender,72,3,78,3,80,3,84,4,81,3,19
+A26,Teppei Neru,Teppei Neru (U20),A,Defender,73,2,80,3,84,3,83,4,78,3,17
+A27,Teru Kitsunezato,Teru Kitsunezato (U20),A,Striker,84,3,80,3,78,3,76,3,82,3,18
+A28,Kento Cho,Kento Cho (U20),A,Striker,83,3,81,3,78,3,74,2,82,3,18
+A29,Haru Hayate,Haru Hayate (U20),A,Midfielder,78,3,81,3,79,3,81,3,82,3,18
+A30,Itsuki Wakatsuki,Itsuki Wakatsuki (U20),A,Midfielder,77,3,79,3,78,3,83,3,84,3,18
+A31,Fukaku Gen,Fukaku Gen (U20),A,Goalkeeper,71,4,62,3,79,3,87,3,83,2,18
+A32,Isagi Yoichi,Isagi Yoichi (BM VS BARCHA),A,Striker,88,4,82,3,79,3,81,3,86,3,19
+A33,Grim,Grim (BM VS BARCHA),A,Striker,85,4,84,3,80,3,80,2,82,3,18
+A34,Agi,Agi (BM VS BARCHA),A,Midfielder,85,4,89,4,84,3,85,3,87,3,19
+A35,Kurona Ranze,Kurona Ranze (BM VS CITY),A,Midfielder,77,3,82,3,85,3,79,3,86,3,17
+A36,Aryu Jyubei,Aryu Jyubei(BM VS UBERS),A,Defender,83,3,79,3,81,3,88,4,86,3,19
+A37,Kurona Ranze,Kurona Ranze(BM VS UBERS),A,Midfielder,79,3,83,3,86,4,81,2,88,2,18
+A38,Hiori Yo,Hiori Yo(BM VS UBERS),A,Midfielder,85,4,84,3,84,3,81,3,89,4,19
+A39,Kurona Ranze,Kurona Ranze(BM VS PXG)),A,Midfielder,80,3,85,3,88,3,81,3,88,4,19
+A40,Raichi Jingo,Raichi Jingo(BM VS UBERS),A,Defender,80,3,79,3,85,3,86,4,81,3,22
+A41,Zantetsu Tsurugi,Zantetsu Tsurugi(BM VS UBERS),A,Midfielder,80,3,79,3,89,3,83,4,82,3,19
+A42,Raichi Jingo,Raichi Jingo(BM VS PXG),A,Defender,82,3,83,3,86,3,88,4,84,3,22
+A43,Kiyora Jin,Kiyora Jin(BM VS PXG),A,Midfielder,84,4,87,3,85,3,80,3,89,3,19
+A44,Igarashi Gurimu,Igarashi Gurimu(BM VS PXG),A,Defender,77,2,74,2,84,2,84,3,86,3,18
+A45,Nanase Nijiro,Nanase Nijiro(BM VS PXG),A,Defender,81,3,84,2,84,3,83,3,88,3,19
+A46,Tokimitsu Aoshi,Tokimitsu Aoshi(BM VS PXG),A,Midfielder,85,3,83,3,84,3,83,2,82,2,21
+A47,Shuto Sendo,Shuto Sendo(BM VS UBERS),A,Striker,89,4,85,3,84,3,84,3,87,3,19
+S01,Nagi Seishiro,Nagi Seishiro (U20),S,Striker,90,5,85,4,78,3,79,3,80,3,19
+S02,Shidou Ryusei,Shidou Ryusei (U20),S,Striker,92,4,85,4,80,3,74,3,79,3,20
+S03,Sae Itoshi,Sae Itoshi (U20),S,Midfielder,93,4,88,4,85,3,86,3,94,3,21
+S04,Rin Itoshi,Rin Itoshi (U20),S,Striker,89,4,87,4,80,3,81,3,88,3,20
+S05,Kunigami Rensuke,Kunigami Rensuke ( BM VS BARCHA),S,Striker,88,4,83,3,84,3,82,3,83,3,22
+S06,Michael Kaiser,Michael Kaiser ( BM VS BARCHA),S,Striker,93,4,86,4,84,3,84,3,89,3,21
+S07,Alexis Ness,Alexis Ness ( BM VS BARCHA),S,Midfielder,85,3,88,4,82,3,77,3,91,4,20
+S08,Bachira Meguru,Bachira Meguru ( BM VS BARCHA),S,Striker,90,4,91,4,82,3,78,3,87,3,19
+S09,Otoya Eita,Otoya Eita ( BM VS BARCHA),S,Striker,87,4,87,4,85,3,83,3,87,3,20
+S10,Nagi Seishiro,Nagi Seishiro (BM VS CITY),S,Striker,93,4,87,4,83,3,80,3,83,3,20
+S11,Reo Mikage,Reo Mikage (BM VS CITY),S,Striker,86,4,83,3,83,3,88,4,85,3,21
+S12,Chigiri Hyoma,Chigiri Hyoma (BM VS CITY),S,Striker,85,4,81,4,90,3,81,2,80,2,19
+S13,Michael Kaiser,Michael Kaiser (BM VS CITY),S,Striker,94,4,88,4,85,3,85,3,89,3,21
+S14,Alexis Ness,Alexis Ness (BM VS CITY),S,Midfielder,86,3,90,4,84,3,78,3,92,4,20
+S15,Isagi Yoichi,Isagi Yoichi (BM VS CITY),S,Striker,90,4,84,3,81,3,84,3,88,3,20
+S16,Kunigami Rensuke,Kunigami Rensuke (BM VS CITY),S,Striker,90,4,84,3,85,3,85,3,83,3,22
+S17,Yukimiya Kenyu,Yukimiya Kenyu (BM VS CITY),S,Midfielder,89,4,90,4,86,3,84,3,84,3,20
+S18,Gagamaru Gin,Gagamaru Gin (BM VS CITY),S,Goalkeeper,78,3,72,3,86,3,91,4,88,3,19
+S19,Blue Lock Man,Blue Lock Man,S,Goalkeeper,80,3,75,3,85,3,89,3,90,3,24
+S20,Barou Shouei,Barou Shouei (BM VS UBERS),S,Striker,94,4,89,4,88,3,82,3,80,3,20
+S21,Don Lorenzo,Don Lorenzo (BM VS UBERS),S,Defender,80,3,91,4,87,4,92,4,89,3,22
+S22,Niko Ikki,Niko Ikki (BM VS UBERS),S,Defender,84,3,82,3,86,3,90,4,89,3,18
+S23,Oliver Aiku,Oliver Aiku (BM VS UBERS),S,Defender,81,3,79,3,86,3,91,4,87,3,19
+S24,Isagi Yoichi,Isagi Yoichi (BM VS UBERS),S,Striker,92,5,85,4,85,3,85,3,89,4,21
+S25,Kunigami Rensuke,Kunigami Rensuke (BM VS UBERS),S,Striker,91,4,85,3,86,3,85,4,85,3,23
+S26,Gagamaru Gin,Gagamaru Gin (BM VS UBERS),S,Goalkeeper,79,3,74,3,87,2,93,3,89,2,20
+S27,Blue Lock Man,Blue Lock Man,S,Goalkeeper,85,3,80,3,85,2,92,3,89,2,24
+S28,Alexis Ness,Alexis Ness (BM VS UBERS),S,Midfielder,87,4,91,4,86,3,79,3,93,4,20
+S29,Michael Kaiser,Michael Kaiser (BM VS UBERS),S,Striker,95,4,89,4,86,3,87,4,90,3,21
+S30,Charles Chevalier,Charles Chevalier ( BM VS PXG ),S,Midfielder,84,4,84,3,86,3,84,3,95,4,21
+S31,Rin Itoshi,Rin Itoshi ( BM VS PXG ),S,Striker,94,5,93,4,87,3,87,3,91,3,22
+S32,Karasu Tabito,Karasu Tabito ( BM VS PXG ),S,Midfielder,86,4,88,4,87,3,87,3,87,3,21
+S33,Shidou Ryusei,Shidou Ryusei ( BM VS PXG ),S,Striker,95,4,88,4,87,3,84,3,87,3,21
+S34,Michael Kaiser,Michael Kaiser ( BM VS PXG ),S,Striker,96,5,90,4,87,3,90,4,91,4,22
+S35,Isagi Yoichi,Isagi Yoichi ( BM VS PXG ),S,Striker,94,5,88,3,87,3,89,4,91,4,22
+S36,Gagamaru Gin,Gagamaru Gin ( BM VS PXG ),S,Goalkeeper,80,3,75,3,89,2,95,3,90,2,21
+S37,Yukimiya Kenyu,Yukimiya Kenyu ( BM VS PXG ),S,Midfielder,90,4,92,4,88,3,87,3,86,3,21
+S38,Hiori Yo,Hiori Yo ( BM VS PXG ),S,Midfielder,87,4,88,4,86,3,85,3,92,3,20
+S39,Kunigami Rensuke,Kunigami Rensuke ( BM VS PXG ),S,Striker,92,4,86,3,87,3,87,4,87,3,23
+S40,Otoya Eita,Otoya Eita ( BARCHA VS CITY ),S,Striker,89,4,87,3,87,3,86,3,89,3,20
+S41,Bachira Meguru,Bachira Meguru ( BARCHA VS CITY ),S,Striker,92,4,93,4,86,3,81,3,90,4,21
+S42,Nagi Seishiro,Nagi Seishiro ( BARCHA VS CITY ),S,Striker,92,4,89,4,84,3,80,3,81,3,20
+S43,Reo Mikage,Reo Mikage ( BARCHA VS CITY ),S,Midfielder,89,4,85,3,86,3,89,4,87,3,23
+S44,Chigiri Hyoma,Chigiri Hyoma ( BARCHA VS CITY ),S,Striker,87,4,84,4,92,3,84,4,85,3,20
+SS01,Julian Loki,Julian Loki (2ND SEL),SS,Striker,94,4,94,4,96,4,92,3,90,3,23
+SS02,Dada Silva,Dada Silva (2ND SEL),SS,Striker,95,4,94,4,93,4,96,4,91,3,23
+SS03,Leonardo Luna,Leonardo Luna (2ND SEL),SS,Striker,96,4,96,4,93,4,93,3,94,3,25
+SS04,Pablo Cavasoz,Pablo Cavasoz (2ND SEL),SS,Striker,95,4,95,4,94,4,92,3,96,3,23
+SS05,Adam Blake,Adam Blake (2ND SEL),SS,Striker,96,4,95,4,93,4,94,3,92,3,27
+SS06,Noel Noa,Noel Noa ( NEL ),SS,Striker,98,4,96,4,94,3,93,3,96,3,27
+SS07,Lavinho,Lavinho ( NEL ),SS,Striker,95,4,98,4,94,3,90,3,92,3,25
+SS08,Chris Prince,Chris Prince ( NEL ),SS,Striker,97,4,95,4,94,3,94,3,94,3,28
+SS09,Marc Snuffy,Marc Snuffy ( NEL ),SS,Midfielder,97,4,94,4,95,4,94,3,96,3,26
+SS10,Julian Loki,Julian Loki ( NEL ),SS,Striker,96,4,95,4,98,4,94,3,94,3,25

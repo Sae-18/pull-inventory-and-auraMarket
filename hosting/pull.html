@@ -192,7 +192,7 @@
 
         <div id="team-z" class="modal-container team-z absolute flex flex-col items-center justify-center gap-6 
     bg-gray-900 shadow-[0_0_40px_5px_theme(colors.blue.500),0_0_80px_10px_theme(colors.blue.500)]
-    overflow-hidden opacity-0 z-5 select-none rounded-3xl scale-0 font-['Pixelify_Sans'] hidden
+    overflow-hidden opacity-0 z-5 select-none rounded-3xl scale-0 font-['Pixelify_Sans'] hidden 
 
     min-h-screen w-11/12 p-4 
     md:min-h-[777px] md:w-[722px]">
@@ -211,7 +211,7 @@
                             src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Common.png?raw=true">
                     </div>
                     <div class="left-btn bg-gray-900 h-[57px] w-full flex justify-evenly gap-4 items-center  px-8">
-                        <button id="get-now-common" class="h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
+                        <button class="get-now-common h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
     active:border-b-[0px]
     transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]
@@ -301,6 +301,76 @@
                 }
             }
         </style>
+
+        <!-- MOBILE MODAL -->
+        <div id="team-z-mobile" class="modal-container team-z fixed inset-0 flex flex-col items-center justify-start gap-4 
+     bg-gray-900 shadow-[0_0_30px_5px_theme(colors.blue.500)] overflow-y-auto opacity-0 z-50 select-none 
+     rounded-none scale-0 font-['Pixelify_Sans'] hidden p-4">
+
+            <!-- Close Button -->
+            <button class="close absolute h-[25px] w-[25px] text-white text-[1.8em] 
+        right-4 top-2 hover:text-red-500 hover:scale-125 transition">
+                &times;
+            </button>
+
+            <!-- Pack Image -->
+            <div class="w-full flex justify-center">
+                <img class="w-4/5 max-w-[300px] object-contain"
+                    src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Common.png?raw=true">
+            </div>
+
+            <!-- Heading -->
+            <div class="text-center space-y-1">
+                <h3 class="text-2xl text-yellow-400">Burning Egoists</h3>
+                <p class="text-lg text-yellow-400">Price : <span class="text-purple-600">?? Aura</span></p>
+                <p class="text-lg text-yellow-400">Rarity : <span class="text-blue-400">Team Z</span></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="w-full flex gap-4">
+                <button class="get-now-common flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Get Now
+                </button>
+                <button class="close flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Go Back
+                </button>
+            </div>
+
+            <!-- Description (collapsible on mobile) -->
+            <div class="bg-gray-800 p-3 rounded-lg w-full">
+                <details>
+                    <summary class="text-yellow-400 cursor-pointer">Pack Info</summary>
+                    <p class="text-sm text-gray-200 leading-snug mt-2">
+                        Team Z — the lowest-ranked unit in Blue Lock, yet the most volatile.
+                        This pack is flooded with raw, unrefined talent—cards that echo desperation, grit, and
+                        unyielding ambition.
+                        While it’s built around common strikers, don’t let the tier fool you.
+                        Buried within the chaos lies a chance—rare, but real—to pull elite cards that slipped through
+                        the cracks.
+                        If you thrive in unpredictability and believe in the rise of the overlooked, this pack is your
+                        proving ground.
+                        True egoists make legends out of nobodies.
+                    </p>
+                </details>
+            </div>
+
+            <!-- Might Pull Section -->
+            <div class="w-full">
+                <h2 class="text-xl text-yellow-400 text-center mb-2">Might Pull One of These:</h2>
+                <div class="flex gap-3 overflow-x-auto pb-3">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/1.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/2.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/3.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/4.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/5.png">
+                </div>
+            </div>
+        </div>
+
+
+
         <div id="team-v" class="modal-container team-v absolute min-h-[777px] w-[722px] flex flex-col items-center justify-center gap-6 
             bg-gray-900 shadow-[0_0_40px_5px_theme(colors.lime.300),0_0_80px_10px_theme(colors.lime.300)]
             overflow-hidden opacity-0 z-5 select-none rounded-3xl scale-0 font-['Pixelify_Sans'] hidden">
@@ -321,7 +391,7 @@
                             src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Epic.png?raw=true">
                     </div>
                     <div class="left-btn bg-gray-900 h-[57px] w-[300px] flex justify-evenly gap-4 items-center  px-8">
-                        <button id="get-now-epic" class="h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
+                        <button id="get-now-epic" class="get-now-epic h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
     active:border-b-[0px]
     transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]
@@ -403,6 +473,74 @@
             </div>
         </div>
 
+        <div id="team-v-mobile" class="modal-container team-v fixed inset-0 flex flex-col items-center justify-start gap-4 
+     bg-gray-900 shadow-[0_0_30px_5px_theme(colors.blue.500)] overflow-y-auto opacity-0 z-50 select-none 
+     rounded-none scale-0 font-['Pixelify_Sans'] hidden p-4">
+
+            <!-- Close Button -->
+            <button class="close absolute h-[25px] w-[25px] text-white text-[1.8em] 
+        right-4 top-2 hover:text-red-500 hover:scale-125 transition">
+                &times;
+            </button>
+
+            <!-- Pack Image -->
+            <div class="w-full flex justify-center">
+                <img class="w-4/5 max-w-[300px] object-contain"
+                    src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Epic.png?raw=true">
+            </div>
+
+            <!-- Heading -->
+            <div class="text-center space-y-1">
+                <h3 class="text-2xl text-yellow-400">Diamonds in the Rough</h3>
+                <p class="text-lg text-yellow-400">Price : <span class="text-purple-600">?? Aura</span></p>
+                <p class="text-lg text-yellow-400">Rarity : <span class="text-blue-400">Team V</span></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="w-full flex gap-4">
+                <button class="get-now-epic flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Get Now
+                </button>
+                <button class="close flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Go Back
+                </button>
+            </div>
+
+            <!-- Description (collapsible on mobile) -->
+            <div class="bg-gray-800 p-3 rounded-lg w-full">
+                <details>
+                    <summary class="text-yellow-400 cursor-pointer">Pack Info</summary>
+                    <p class="text-sm text-gray-200 leading-snug mt-2">
+                        Team V — the ruthless prodigies of Blue Lock. This pack drips with overconfidence and killer
+                        instinct. Every card pulses with refined technique, raw speed, and a thirst to dominate.
+                        Unlike
+                        Team Z’s chaos, Team V is precision-engineered to win. While chances for B-rank cards still
+                        lurk, this pack guarantees an A-rank striker — no question. Cold. Calculated. Cruel. If you
+                        play
+                        to humiliate your opponents instead of just beating them, then Team V is your natural
+                        habitat.
+                        Ego doesn’t survive here — it reigns.
+                    </p>
+                </details>
+            </div>
+
+            <!-- Might Pull Section -->
+            <div class="w-full">
+                <h2 class="text-xl text-yellow-400 text-center mb-2">Might Pull One of These:</h2>
+                <div class="flex gap-3 overflow-x-auto pb-3">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/1.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/2.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/3.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/4.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/5.png">
+                </div>
+            </div>
+        </div>
+
+
+        <!--The modal/s for team A-->
         <div id="team-a" class="modal-container team-a absolute min-h-[777px] w-[722px] flex flex-col items-center justify-center gap-6 
             bg-gray-900 shadow-[0_0_40px_5px_theme(colors.cyan.50),0_0_80px_10px_theme(colors.cyan.50)]
             overflow-hidden opacity-0 z-5 select-none rounded-3xl scale-0 font-['Pixelify_Sans'] hidden">
@@ -423,7 +561,7 @@
                             src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/LegendaryPack.png?raw=true">
                     </div>
                     <div class="left-btn bg-gray-900 h-[57px] w-[300px] flex justify-evenly gap-4 items-center  px-8">
-                        <button id="get-now-legendary" class="h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
+                        <button id="get-now-legendary" class="get-now-legendary h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
     active:border-b-[0px]
     transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]
@@ -504,6 +642,72 @@
             </div>
         </div>
 
+        <div id="team-a-mobile" class="modal-container team-a fixed inset-0 flex flex-col items-center justify-start gap-4 
+     bg-gray-900 shadow-[0_0_30px_5px_theme(colors.blue.500)] overflow-y-auto opacity-0 z-50 select-none 
+     rounded-none scale-0 font-['Pixelify_Sans'] hidden p-4">
+
+            <!-- Close Button -->
+            <button class="close absolute h-[25px] w-[25px] text-white text-[1.8em] 
+        right-4 top-2 hover:text-red-500 hover:scale-125 transition">
+                &times;
+            </button>
+
+            <!-- Pack Image -->
+            <div class="w-full flex justify-center">
+                <img class="w-4/5 max-w-[300px] object-contain"
+                    src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/LegendaryPack.png?raw=true">
+            </div>
+
+            <!-- Heading -->
+            <div class="text-center space-y-1">
+                <h3 class="text-2xl text-yellow-400">Demon Kings</h3>
+                <p class="text-lg text-yellow-400">Price : <span class="text-purple-600">?? Aura</span></p>
+                <p class="text-lg text-yellow-400">Rarity : <span class="text-blue-400">Team A</span></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="w-full flex gap-4">
+                <button class="get-now-legendary flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Get Now
+                </button>
+                <button class="close flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Go Back
+                </button>
+            </div>
+
+            <!-- Description (collapsible on mobile) -->
+            <div class="bg-gray-800 p-3 rounded-lg w-full">
+                <details>
+                    <summary class="text-yellow-400 cursor-pointer">Pack Info</summary>
+                    <p class="text-sm text-gray-200 leading-snug mt-2">
+                        Team A — the elite of the elite. These aren’t just players; they’re walking egos carved into
+                        flesh. This pack is engineered for dominance. Every pull drips with lethal efficiency, from
+                        high-tier B cards to devastating A-rank tacticians. But what sets this beast apart? A
+                        guaranteed
+                        S-rank card — a generational talent who doesn’t chase greatness… they are greatness. This
+                        isn’t
+                        luck. It’s destiny packaged and weaponized. If you’re ready to stop pretending and start
+                        rewriting history — welcome to Team A. No weaklings allowed.
+                    </p>
+                </details>
+            </div>
+
+            <!-- Might Pull Section -->
+            <div class="w-full">
+                <h2 class="text-xl text-yellow-400 text-center mb-2">Might Pull One of These:</h2>
+                <div class="flex gap-3 overflow-x-auto pb-3">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/1.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/2.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/3.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/4.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/5.png">
+                </div>
+            </div>
+        </div>
+
+
         <div id="redCards" class="modal-container redCards absolute translate-y-190 min-h-[777px] w-[722px] flex flex-col items-center justify-center gap-6 
             bg-gray-900 shadow-[0_0_40px_5px_theme(colors.rose.400),0_0_80px_10px_theme(colors.rose.400)]
             overflow-hidden opacity-0 z-5 select-none rounded-3xl scale-0 font-['Pixelify_Sans'] hidden">
@@ -524,7 +728,7 @@
                             src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/w3.png?raw=true">
                     </div>
                     <div class="left-btn bg-gray-900 h-[57px] w-[300px] flex justify-evenly gap-4 items-center  px-8">
-                        <button id="rival-synergies" class="h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
+                        <button id="rival-synergies" class="rival-synergies h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
     active:border-b-[0px]
     transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]
@@ -606,6 +810,70 @@
             </div>
         </div>
 
+        <div id="redCards-mobile" class="modal-container redCards-mobile fixed inset-0 flex flex-col items-center justify-start gap-4 
+     bg-gray-900 shadow-[0_0_30px_5px_theme(colors.blue.500)] overflow-y-auto opacity-0 z-50 select-none 
+     rounded-none scale-0 font-['Pixelify_Sans'] hidden p-4">
+
+            <!-- Close Button -->
+            <button class="close absolute h-[25px] w-[25px] text-white text-[1.8em] 
+        right-4 top-2 hover:text-red-500 hover:scale-125 transition">
+                &times;
+            </button>
+
+            <!-- Pack Image -->
+            <div class="w-full flex justify-center">
+                <img class="w-4/5 max-w-[300px] object-contain"
+                    src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/w3.png?raw=true">
+            </div>
+
+            <!-- Heading -->
+            <div class="text-center space-y-1">
+                <h3 class="text-2xl text-yellow-400">Rival Synergies</h3>
+                <p class="text-lg text-yellow-400">Price : <span class="text-purple-600">?? Aura</span></p>
+                <p class="text-lg text-yellow-400">Rarity : <span class="text-blue-400">Team Ego</span></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="w-full flex gap-4">
+                <button class="rival-synergies flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Get Now
+                </button>
+                <button class="close flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Go Back
+                </button>
+            </div>
+
+            <!-- Description (collapsible on mobile) -->
+            <div class="bg-gray-800 p-3 rounded-lg w-full">
+                <details>
+                    <summary class="text-yellow-400 cursor-pointer">Pack Info</summary>
+                    <p class="text-sm text-gray-200 leading-snug mt-2">
+                        Team Ego — the battle boosters of Blue Lock. These cards don’t just join the fight —
+                        they rewrite it. Synergy effects, signature moves, and ruthless rivalries turn the pitch
+                        into a warzone where momentum bends to your will. Every pull is a loaded weapon, capable of
+                        chaining chaos or crushing an opponent’s ego in one strike. This pack doesn’t build strikers
+                        — it forges the tricks, traps, and tactics that make victory inevitable. Cold. Unfair.
+                        Unstoppable.
+                    </p>
+                </details>
+            </div>
+
+            <!-- Might Pull Section -->
+            <div class="w-full">
+                <h2 class="text-xl text-yellow-400 text-center mb-2">Might Pull One of These:</h2>
+                <div class="flex gap-3 overflow-x-auto pb-3">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/1.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/2.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/3.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/4.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/5.png">
+                </div>
+            </div>
+        </div>
+
+
 
 
         <div id="greenCards" class="modal-container greenCards absolute min-h-[777px] w-[722px] flex flex-col items-center justify-center gap-6 
@@ -628,7 +896,7 @@
                             src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/w2.png?raw=true">
                     </div>
                     <div class="left-btn bg-gray-900 h-[57px] w-[300px] flex justify-evenly gap-4 items-center  px-8">
-                        <button id="synergies" class="h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
+                        <button id="synergies" class="synergies h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
     active:border-b-[0px]
     transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]
@@ -709,6 +977,70 @@
             </div>
         </div>
 
+        <div id="greenCards-mobile" class="modal-container greenCards-mobile fixed inset-0 flex flex-col items-center justify-start gap-4 
+     bg-gray-900 shadow-[0_0_30px_5px_theme(colors.blue.500)] overflow-y-auto opacity-0 z-50 select-none 
+     rounded-none scale-0 font-['Pixelify_Sans'] hidden p-4">
+
+            <!-- Close Button -->
+            <button class="close absolute h-[25px] w-[25px] text-white text-[1.8em] 
+        right-4 top-2 hover:text-red-500 hover:scale-125 transition">
+                &times;
+            </button>
+
+            <!-- Pack Image -->
+            <div class="w-full flex justify-center">
+                <img class="w-4/5 max-w-[300px] object-contain"
+                    src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/w2.png?raw=true">
+            </div>
+
+            <!-- Heading -->
+            <div class="text-center space-y-1">
+                <h3 class="text-2xl text-yellow-400">Synergies</h3>
+                <p class="text-lg text-yellow-400">Price : <span class="text-purple-600">?? Aura</span></p>
+                <p class="text-lg text-yellow-400">Rarity : <span class="text-blue-400">Team Ego</span></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="w-full flex gap-4">
+                <button class="synergies flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Get Now
+                </button>
+                <button class="close flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Go Back
+                </button>
+            </div>
+
+            <!-- Description (collapsible on mobile) -->
+            <div class="bg-gray-800 p-3 rounded-lg w-full">
+                <details>
+                    <summary class="text-yellow-400 cursor-pointer">Pack Info</summary>
+                    <p class="text-sm text-gray-200 leading-snug mt-2">
+                        Team Ego — the battle boosters of Blue Lock. These cards don’t just join the fight —
+                        they rewrite it. Synergy effects, signature moves, and ruthless rivalries turn the pitch
+                        into a warzone where momentum bends to your will. Every pull is a loaded weapon, capable of
+                        chaining chaos or crushing an opponent’s ego in one strike. This pack doesn’t build strikers
+                        — it forges the tricks, traps, and tactics that make victory inevitable. Cold. Unfair.
+                        Unstoppable.
+                    </p>
+                </details>
+            </div>
+
+            <!-- Might Pull Section -->
+            <div class="w-full">
+                <h2 class="text-xl text-yellow-400 text-center mb-2">Might Pull One of These:</h2>
+                <div class="flex gap-3 overflow-x-auto pb-3">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/1.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/2.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/3.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/4.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/5.png">
+                </div>
+            </div>
+        </div>
+
+
 
         <div id="effectCards" class="modal-container effectCards translate-y-190 absolute min-h-[777px] w-[722px] flex flex-col items-center justify-center gap-6 
             bg-gray-900 shadow-[0_0_40px_5px_theme(colors.slate.600),0_0_80px_10px_theme(colors.slate.600)]
@@ -730,7 +1062,7 @@
                             src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/w4.png?raw=true">
                     </div>
                     <div class="left-btn bg-gray-900 h-[57px] w-[300px] flex justify-evenly gap-4 items-center  px-8">
-                        <button id="effect-cards" class="h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
+                        <button id="effect-cards" class="effect-card h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
     active:border-b-[0px]
     transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]
@@ -811,6 +1143,70 @@
             </div>
         </div>
 
+        <div id="effectCards-mobile" class="modal-container effectCards-mobile fixed inset-0 flex flex-col items-center justify-start gap-4 
+     bg-gray-900 shadow-[0_0_30px_5px_theme(colors.blue.500)] overflow-y-auto opacity-0 z-50 select-none 
+     rounded-none scale-0 font-['Pixelify_Sans'] hidden p-4">
+
+            <!-- Close Button -->
+            <button class="close absolute h-[25px] w-[25px] text-white text-[1.8em] 
+        right-4 top-2 hover:text-red-500 hover:scale-125 transition">
+                &times;
+            </button>
+
+            <!-- Pack Image -->
+            <div class="w-full flex justify-center">
+                <img class="w-4/5 max-w-[300px] object-contain"
+                    src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/w4.png?raw=true">
+            </div>
+
+            <!-- Heading -->
+            <div class="text-center space-y-1">
+                <h3 class="text-2xl text-yellow-400">Effect Cards</h3>
+                <p class="text-lg text-yellow-400">Price : <span class="text-purple-600">?? Aura</span></p>
+                <p class="text-lg text-yellow-400">Rarity : <span class="text-blue-400">Team Ego</span></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="w-full flex gap-4">
+                <button class="effect-card flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Get Now
+                </button>
+                <button class="close flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Go Back
+                </button>
+            </div>
+
+            <!-- Description (collapsible on mobile) -->
+            <div class="bg-gray-800 p-3 rounded-lg w-full">
+                <details>
+                    <summary class="text-yellow-400 cursor-pointer">Pack Info</summary>
+                    <p class="text-sm text-gray-200 leading-snug mt-2">
+                        Team Ego — the battle boosters of Blue Lock. These cards don’t just join the fight —
+                        they rewrite it. Synergy effects, signature moves, and ruthless rivalries turn the pitch
+                        into a warzone where momentum bends to your will. Every pull is a loaded weapon, capable of
+                        chaining chaos or crushing an opponent’s ego in one strike. This pack doesn’t build strikers
+                        — it forges the tricks, traps, and tactics that make victory inevitable. Cold. Unfair.
+                        Unstoppable.
+                    </p>
+                </details>
+            </div>
+
+            <!-- Might Pull Section -->
+            <div class="w-full">
+                <h2 class="text-xl text-yellow-400 text-center mb-2">Might Pull One of These:</h2>
+                <div class="flex gap-3 overflow-x-auto pb-3">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/1.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/2.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/3.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/4.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/5.png">
+                </div>
+            </div>
+        </div>
+
+
 
         <div id="characterBoosts" class="modal-container characterBoosts translate-y-190 absolute min-h-[777px] w-[722px] flex flex-col items-center justify-center gap-6 
             bg-gray-900 shadow-[0_0_40px_5px_theme(colors.purple.500),0_0_80px_10px_theme(colors.purple.500)]
@@ -832,7 +1228,7 @@
                             src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/w5.png?raw=true">
                     </div>
                     <div class="left-btn bg-gray-900 h-[57px] w-[300px] flex justify-evenly gap-4 items-center  px-8">
-                        <button id="character-boosts" class="h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
+                        <button id="character-boosts" class="character-boost h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
     active:border-b-[0px]
     transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]
@@ -913,6 +1309,68 @@
                 </div>
             </div>
         </div>
+        <div id="characterBoosts-mobile" class="modal-container characterBoosts-mobile fixed inset-0 flex flex-col items-center justify-start gap-4 
+     bg-gray-900 shadow-[0_0_30px_5px_theme(colors.blue.500)] overflow-y-auto opacity-0 z-50 select-none 
+     rounded-none scale-0 font-['Pixelify_Sans'] hidden p-4">
+
+            <!-- Close Button -->
+            <button class="close absolute h-[25px] w-[25px] text-white text-[1.8em] 
+        right-4 top-2 hover:text-red-500 hover:scale-125 transition">
+                &times;
+            </button>
+
+            <!-- Pack Image -->
+            <div class="w-full flex justify-center">
+                <img class="w-4/5 max-w-[300px] object-contain"
+                    src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/w5.png?raw=true">
+            </div>
+
+            <!-- Heading -->
+            <div class="text-center space-y-1">
+                <h3 class="text-2xl text-yellow-400">Character Boosts</h3>
+                <p class="text-lg text-yellow-400">Price : <span class="text-purple-600">?? Aura</span></p>
+                <p class="text-lg text-yellow-400">Rarity : <span class="text-blue-400">Team Ego</span></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="w-full flex gap-4">
+                <button class="character-boost flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Get Now
+                </button>
+                <button class="close flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Go Back
+                </button>
+            </div>
+
+            <!-- Description (collapsible on mobile) -->
+            <div class="bg-gray-800 p-3 rounded-lg w-full">
+                <details>
+                    <summary class="text-yellow-400 cursor-pointer">Pack Info</summary>
+                    <p class="text-sm text-gray-200 leading-snug mt-2">
+                        Team Ego — the battle boosters of Blue Lock. These cards don’t just join the fight —
+                        they rewrite it. Synergy effects, signature moves, and ruthless rivalries turn the pitch
+                        into a warzone where momentum bends to your will. Every pull is a loaded weapon, capable of
+                        chaining chaos or crushing an opponent’s ego in one strike. This pack doesn’t build strikers
+                        — it forges the tricks, traps, and tactics that make victory inevitable. Cold. Unfair.
+                        Unstoppable.
+                    </p>
+                </details>
+            </div>
+
+            <!-- Might Pull Section -->
+            <div class="w-full">
+                <h2 class="text-xl text-yellow-400 text-center mb-2">Might Pull One of These:</h2>
+                <div class="flex gap-3 overflow-x-auto pb-3">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/1.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/2.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/3.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/4.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/5.png">
+                </div>
+            </div>
+        </div>
 
 
         <div id="powerUps" class="modal-container powerUps translate-y-190 absolute min-h-[777px] w-[722px] flex flex-col items-center justify-center gap-6 
@@ -935,7 +1393,7 @@
                             src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/w1.png?raw=true">
                     </div>
                     <div class="left-btn bg-gray-900 h-[57px] w-[300px] flex justify-evenly gap-4 items-center  px-8">
-                        <button id="power-ups" class="h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
+                        <button id="power-ups" class="power-up h-3/5 w-3/5 bg-blue-500 rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
     active:border-b-[0px]
     transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]
@@ -1016,47 +1474,84 @@
             </div>
         </div>
 
+        <div id="powerUps-mobile" class="modal-container powerUps-mobile fixed inset-0 flex flex-col items-center justify-start gap-4 
+     bg-gray-900 shadow-[0_0_30px_5px_theme(colors.blue.500)] overflow-y-auto opacity-0 z-50 select-none 
+     rounded-none scale-0 font-['Pixelify_Sans'] hidden p-4">
+
+            <!-- Close Button -->
+            <button class="close absolute h-[25px] w-[25px] text-white text-[1.8em] 
+        right-4 top-2 hover:text-red-500 hover:scale-125 transition">
+                &times;
+            </button>
+
+            <!-- Pack Image -->
+            <div class="w-full flex justify-center">
+                <img class="w-4/5 max-w-[300px] object-contain"
+                    src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/w1.png?raw=true">
+            </div>
+
+            <!-- Heading -->
+            <div class="text-center space-y-1">
+                <h3 class="text-2xl text-yellow-400">Power Ups</h3>
+                <p class="text-lg text-yellow-400">Price : <span class="text-purple-600">?? Aura</span></p>
+                <p class="text-lg text-yellow-400">Rarity : <span class="text-blue-400">Team Ego</span></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="w-full flex gap-4">
+                <button class="power-up flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Get Now
+                </button>
+                <button class="close flex-1 py-3 bg-blue-500 rounded-lg font-bold text-white 
+                   active:translate-y-1 transition-all duration-150 shadow-md">
+                    Go Back
+                </button>
+            </div>
+
+            <!-- Description (collapsible on mobile) -->
+            <div class="bg-gray-800 p-3 rounded-lg w-full">
+                <details>
+                    <summary class="text-yellow-400 cursor-pointer">Pack Info</summary>
+                    <p class="text-sm text-gray-200 leading-snug mt-2">
+                        Team Ego — the battle boosters of Blue Lock. These cards don’t just join the fight —
+                        they rewrite it. Synergy effects, signature moves, and ruthless rivalries turn the pitch
+                        into a warzone where momentum bends to your will. Every pull is a loaded weapon, capable of
+                        chaining chaos or crushing an opponent’s ego in one strike. This pack doesn’t build strikers
+                        — it forges the tricks, traps, and tactics that make victory inevitable. Cold. Unfair.
+                        Unstoppable.
+                    </p>
+                </details>
+            </div>
+
+            <!-- Might Pull Section -->
+            <div class="w-full">
+                <h2 class="text-xl text-yellow-400 text-center mb-2">Might Pull One of These:</h2>
+                <div class="flex gap-3 overflow-x-auto pb-3">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/1.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/2.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/3.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/4.png">
+                    <img class="h-40 rounded-lg flex-shrink-0" src="Assets/5.png">
+                </div>
+            </div>
+        </div>
 
 
 
-        <div class="pack-container hidden fixed w-screen h-screen flex justify-center items-center z-[10] left-0 top-0 bg-[rgba(0,0,0,0.9)]"
+
+        <div class=" sm:overflow-y-auto pack-container hidden fixed w-screen h-screen flex ml-5 md:justify-center md:items-center z-[10] left-0 top-0 bg-[rgba(0,0,0,0.9)]"
             id="pack-modal">
             <!-- your packs here -->
 
+            <div class="card-lineup flex flex-col sm:flex-row flex-wrap gap-6 sm:gap-10 justify-center md:justify-center md:items-center z-20"
+                id="card-lineup">
 
-            <div class="card-lineup flex flex-wrap gap-10 justify-center z-20" id="card-lineup">
                 <div
-                    class="card w-[220px] h-[280px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] overflow-hidden  [perspective:1000px]">
+                    class="card w-[150px] h-[200px] sm:w-[180px] sm:h-[240px] md:w-[220px] md:h-[280px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] overflow-hidden [perspective:1000px]">
                     <div
                         class="card-inner w-full h-full relative [transform-style:preserve-3d] [transform:rotateY(180deg)]">
-                        <div class="card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden]">
-                        </div>
-                        <div
-                            class="card-back absolute w-full h-full left-0 top-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Back.jpeg?raw=true"
-                                class="pointer-events-none select-none w-full h-full object-cover ">
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="card w-[220px] h-[280px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] overflow-hidden [perspective:1000px]">
-                    <div
-                        class="card-inner w-full h-full relative [transform-style:preserve-3d] [transform:rotateY(180deg)]">
-                        <div class="card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden]">
-                        </div>
-                        <div
-                            class="card-back absolute w-full h-full left-0 top-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Back.jpeg?raw=true"
-                                class="pointer-events-none select-none w-full h-full object-cover ">
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="card w-[220px] h-[280px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] overflow-hidden  [perspective:1000px]">
-                    <div
-                        class="card-inner w-full h-full relative [transform-style:preserve-3d] [transform:rotateY(180deg)]">
-                        <div class="card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden]">
-                        </div>
+                        <div class="card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden]"></div>
                         <div
                             class="card-back absolute w-full h-full left-0 top-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
                             <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Back.jpeg?raw=true"
@@ -1064,25 +1559,51 @@
                         </div>
                     </div>
                 </div>
+
                 <div
-                    class="card w-[220px] h-[280px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] overflow-hidden  [perspective:1000px]">
+                    class="card w-[150px] h-[200px] sm:w-[180px] sm:h-[240px] md:w-[220px] md:h-[280px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] overflow-hidden [perspective:1000px]">
                     <div
                         class="card-inner w-full h-full relative [transform-style:preserve-3d] [transform:rotateY(180deg)]">
-                        <div class="card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden]">
-                        </div>
+                        <div class="card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden]"></div>
                         <div
                             class="card-back absolute w-full h-full left-0 top-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
                             <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Back.jpeg?raw=true"
-                                class="pointer-events-none select-none w-full h-full object-cover ">
+                                class="pointer-events-none select-none w-full h-full object-cover">
                         </div>
                     </div>
                 </div>
+
                 <div
-                    class="card w-[220px] h-[280px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] overflow-hidden  [perspective:1000px] ">
+                    class="card w-[150px] h-[200px] sm:w-[180px] sm:h-[240px] md:w-[220px] md:h-[280px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] overflow-hidden [perspective:1000px]">
                     <div
                         class="card-inner w-full h-full relative [transform-style:preserve-3d] [transform:rotateY(180deg)]">
-                        <div class="card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden]">
+                        <div class="card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden]"></div>
+                        <div
+                            class="card-back absolute w-full h-full left-0 top-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Back.jpeg?raw=true"
+                                class="pointer-events-none select-none w-full h-full object-cover">
                         </div>
+                    </div>
+                </div>
+
+                <div
+                    class="card w-[150px] h-[200px] sm:w-[180px] sm:h-[240px] md:w-[220px] md:h-[280px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] overflow-hidden [perspective:1000px]">
+                    <div
+                        class="card-inner w-full h-full relative [transform-style:preserve-3d] [transform:rotateY(180deg)]">
+                        <div class="card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden]"></div>
+                        <div
+                            class="card-back absolute w-full h-full left-0 top-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                            <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Back.jpeg?raw=true"
+                                class="pointer-events-none select-none w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="card w-[150px] h-[200px] sm:w-[180px] sm:h-[240px] md:w-[220px] md:h-[280px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] overflow-hidden [perspective:1000px]">
+                    <div
+                        class="card-inner w-full h-full relative [transform-style:preserve-3d] [transform:rotateY(180deg)]">
+                        <div class="card-front absolute w-full h-full left-0 top-0 [backface-visibility:hidden]"></div>
                         <div
                             class="card-back absolute w-full h-full left-0 top-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
                             <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/PackCovers/Back.jpeg?raw=true"
@@ -1093,6 +1614,7 @@
 
             </div>
         </div>
+
 
         <div id="blackout" class="fixed inset-0 bg-black opacity-0 z-30 pointer-events-none"></div>></div>
 
@@ -1107,6 +1629,27 @@
     'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
     text-shadow: 0 0 6px rgba(255, 255, 255, 0.15);" id="animation-text">For me, nothing is impossible.</p>
         </div>
+
+        <!-- Coming Soon Modal -->
+        <div id="coming-soon-modal"
+            class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-80 hidden">
+            <div
+                class="relative bg-gradient-to-br from-blue-900 via-blue-700 to-cyan-500 rounded-3xl shadow-2xl p-8 flex flex-col items-center max-w-[90vw] w-[350px]">
+                <img src="https://github.com/Sae-18/assets-for-tcg/blob/main/BlueLockBackgrounds/logo.png?raw=true"
+                    alt="Blue Lock Logo" class="w-20 h-20 object-contain mb-4 drop-shadow-[0_0_20px_#00eaff]" />
+                <h2 class="text-3xl font-extrabold text-white mb-2 tracking-wide text-center drop-shadow">Coming Soon
+                </h2>
+                <p class="text-lg text-blue-100 text-center mb-6">This feature is locked away for now.<br>Stay tuned,
+                    egoist!</p>
+                <button id="close-coming-soon"
+                    class="mt-2 px-6 py-2 bg-cyan-400 hover:bg-cyan-300 text-black font-bold rounded-lg shadow transition">OK</button>
+                <div class="absolute -top-4 -right-4 bg-cyan-400 rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-cyan-300 transition"
+                    id="close-coming-soon-x">
+                    <span class="text-2xl font-bold text-black">&times;</span>
+                </div>
+            </div>
+        </div>
+
 
         <!-- ✅ GSAP & Howler -->
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
